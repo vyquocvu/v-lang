@@ -57,5 +57,16 @@ Một ngôn ngữ hướng đối tượng
       trả_về x * 2
      }
   ```
-   
+  ## Toán tử
+  ```
+    + (cộng)                - (trừ)  
+    * (nhân)                / (chia lấy thập phân)  
+    \ (chia nguyên)         % (chia lấy số dư)  
+    = (gán)                 == (so sánh bằng)  
+    < (nhỏ hơn)             > (lớn hơn)  
+    <= (nhỏ hơn hoặc bằng)  >= (lớn hơn hoặc bằng)  
+    <> (khác)               && (phép và)  
+    ! (phép phủ định)       || (phép hoặc)  
+    new (khởi tạo đối tượng)   
+  ```
   
