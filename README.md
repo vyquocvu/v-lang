@@ -29,7 +29,7 @@ Một ngôn ngữ hướng đối tượng
 `nếu_không (unless)`       Thực hiện khối mã nếu câu lệnh có điều kiện là sai,ngược lại với nếu.   
 `đến_khi (until)`          Thực thi khối mã trong khi câu lệnh điều kiện là sai.   
 `khi (while)`              Thực hiện mã trong khi câu lệnh có điều kiện là đúng.  
-`mở_rộng (extends)`        Kế thường 1 lớp cha.
+`mở_rộng (extends)`        Kế thường 1 lớp cha.  
 `bản_thân (self)`          Đối tượng cụ thể hiện tại của một lớp.
  
  
