@@ -18,7 +18,7 @@ Một ngôn ngữ hướng đối tượng
 `sai (false)`              Biến nhi phân `false`  
 `lặp (for)`                Bắt đầu vòng lặp for; được sử dụng với trong.  
 `nếu (if)`                 Thực thi khối mã nếu đúng. Đóng với kết thúc.  
-`khác_thì`                 Thực thi khối mã nếu không đúng. Đóng với kết thúc.  
+`khác_thì (else)`                 Thực thi khối mã nếu không đúng. Đóng với kết thúc.  
 `tiếp_theo (next)`         Nhảy qua vòng lặp sau.  
 `rỗng (null)`               Biến trống, chưa được khởi tạo hoặc không hợp lệ, nhưng không giống với số không.  
 `không (not)`              Toán tử logic; giống như !  
