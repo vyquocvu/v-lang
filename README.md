@@ -31,32 +31,32 @@ Một ngôn ngữ hướng đối tượng
 `khi (while)`              Thực hiện mã trong khi câu lệnh có điều kiện là đúng.  
 `mở_rộng (extends)`        Kế thường 1 lớp cha.  
 `bản_thân (self)`          Đối tượng cụ thể hiện tại của một lớp.
- 
- 
- ## Khai báo lớp
-   Tất cả các lớp được khai báo có mẫu như sau  
-   `lớp <tên> [mở_rộng <tên>] { < thành phần > }`  
-   Ví dụ: 
-   ```
-     lớp cafe {
-      vị = 'ngon'
-      màu = 'đen'
-     }
-   ```
- ## Khai báo biến, khai báo hàm
+
+
+## Khai báo lớp
+  Tất cả các lớp được khai báo có mẫu như sau  
+  `lớp <tên> [mở_rộng <tên>] { < thành phần > }`  
+  Ví dụ: 
+  ```
+    lớp cafe {
+    vị = 'ngon'
+    màu = 'đen'
+    }
+  ```
+## Khai báo biến, khai báo hàm
   `<tên> = <biểu thức>`  
   Ví dụ:  
       `a = 1`  
       `b = 2 + 3`  
       `c = '4 + 4`  
-   
+
   ## Khai báo hàm  
-   `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
-   Ví dụ:
-   ```
-     hàm nhân_đôi (x) {
-      trả_về x * 2
-     }
+    `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
+    Ví dụ:
+    ```
+      hàm nhân_đôi (x) {
+        trả_về x * 2
+      }
   ```
   ## Toán tử
   ```
@@ -71,3 +71,4 @@ Một ngôn ngữ hướng đối tượng
     new (khởi tạo đối tượng)   
   ```
   
+pip install llvmlite
