@@ -72,3 +72,8 @@ Một ngôn ngữ hướng đối tượng
   ```
   
 pip install llvmlite
+
+build
+llc -filetype=obj -relocation-model=pic output.ll
+gcc output.o -o output
+./output

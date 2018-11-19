@@ -1,19 +1,26 @@
+
 from lexer import Lexer
 from parser import Parser
+from codegen import CodeGen
 
-text_input = """
-	in_ra(4 + 4 - 2)
-"""
+fname = "text.van"
+
+with open(fname) as f:
+    text_input = f.read()
 
 lexer = Lexer().get_lexer()
 tokens = lexer.lex(text_input)
-tokens2 = lexer.lex(text_input)
 
-for token in tokens2:
-    print(token)
-print(tokens)
+codegen = CodeGen()
 
-pg = Parser()
+module = codegen.module
+builder = codegen.builder
+printf = codegen.printf
+
+pg = Parser(module, builder, printf)
 pg.parse()
 parser = pg.get_parser()
 parser.parse(tokens).eval()
+
+codegen.create_ir()
+codegen.save_ir("output.ll")
