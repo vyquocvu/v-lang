@@ -19,6 +19,11 @@ class Lexer():
 		self.lexer.add('TRU', r'\-')
 		self.lexer.add('NHAN', r'\*')
 		self.lexer.add('CHIA', r'\/')
+		# bool
+		self.lexer.add('BANG', r'\=\=')
+		self.lexer.add('LON_HON', r'\>')
+		self.lexer.add('NHO_HON)', r'\<')
+		self.lexer.add('KHAC', r'\!\=')
 		# Number
 		self.lexer.add('SO_NGUYEN', r'\d+')
 		# Ignore spaces
