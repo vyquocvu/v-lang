@@ -37,10 +37,10 @@ Một ngôn ngữ hướng đối tượng
   Tất cả các lớp được khai báo có mẫu như sau  
   `lớp <tên> [mở_rộng <tên>] { < thành phần > }`  
   Ví dụ: 
-  ```
+  ```python
     lớp cafe {
-    vị = 'ngon'
-    màu = 'đen'
+      vị = 'ngon'
+      màu = 'đen'
     }
   ```
 ## Khai báo biến, khai báo hàm
@@ -53,7 +53,7 @@ Một ngôn ngữ hướng đối tượng
   ## Khai báo hàm  
     `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
     Ví dụ:
-    ```
+    ```python
       hàm nhân_đôi (x) {
         trả_về x * 2
       }
