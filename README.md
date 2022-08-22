@@ -51,9 +51,9 @@ Một ngôn ngữ hướng đối tượng
       `c = '4 + 4'`  
 
   ## Khai báo hàm  
-    `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
-    Ví dụ:
-    ```python
+   `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
+   Ví dụ:
+  ```python
       hàm nhân_đôi (x) {
         trả_về x * 2
       }
