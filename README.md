@@ -48,7 +48,7 @@ Một ngôn ngữ hướng đối tượng
   Ví dụ:  
       `a = 1`  
       `b = 2 + 3`  
-      `c = '4 + 4`  
+      `c = '4 + 4'`  
 
   ## Khai báo hàm  
     `hàm <tên> (< danh sách tham số >) { <thân hàm> }`  
