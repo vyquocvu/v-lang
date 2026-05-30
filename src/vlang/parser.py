@@ -29,6 +29,7 @@ _TOKENS = [
     "TRU",
     "NHAN",
     "CHIA",
+    "IDENTIFIER",
 ]
 
 # Operator precedence (low → high, left-associative by default).

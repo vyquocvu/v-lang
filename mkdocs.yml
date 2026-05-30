@@ -1,0 +1,104 @@
+site_name: v-lang
+site_description: Ngôn ngữ lập trình tiếng Việt — Vietnamese programming language
+site_url: https://vyquocvu.github.io/v-lang
+repo_url: https://github.com/vyquocvu/v-lang
+repo_name: vyquocvu/v-lang
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: vi
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep-orange
+      toggle:
+        icon: material/weather-night
+        name: Chế độ tối
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep-orange
+      toggle:
+        icon: material/weather-sunny
+        name: Chế độ sáng
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.integrate
+
+plugins:
+  - search:
+      lang: [en, vi]
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Trang chủ: index.md
+  - Hướng dẫn:
+    - Xin chào, thế giới!: tutorials/hello-world.md
+    - Biến: tutorials/variables.md
+    - Điều kiện: tutorials/conditionals.md
+    - Vòng lặp: tutorials/loops.md
+    - Hàm: tutorials/functions.md
+  - Tham khảo:
+    - Cú pháp: reference/syntax.md
+    - Từ khóa: reference/keywords.md
+    - Toán tử: reference/operators.md
+    - Thư viện chuẩn: reference/stdlib.md
+  - Hướng dẫn sử dụng:
+    - CLI: guides/cli.md
+    - Cài đặt VS Code: guides/vscode-setup.md
+  - Giải thích:
+    - Tại sao v-lang?: explanation/design.md
+    - Kiến trúc: explanation/architecture.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/vyquocvu/v-lang
+      name: v-lang on GitHub
+  version:
+    provider: mike

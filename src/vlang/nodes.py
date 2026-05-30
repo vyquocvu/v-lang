@@ -1,7 +1,7 @@
 """
 AST node classes for the vlang compiler.
 
-Each node represents a syntactic construct in the .van source language.
+Each node represents a syntactic construct in the .vpl source language.
 All nodes implement an ``eval()`` method that emits LLVM IR via the
 provided llvmlite builder/module.
 

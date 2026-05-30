@@ -28,15 +28,15 @@ pip install -e ".[dev]"
 
 ```bash
 # Emit LLVM IR only
-vlang compile examples/hello.van
+vlang compile examples/hello.vpl
 
 # Compile + link to a native binary
-vlang compile examples/hello.van -o hello
+vlang compile examples/hello.vpl -o hello
 ./hello
 
 # Or use the convenience script
 chmod +x scripts/build.sh
-./scripts/build.sh examples/hello.van hello
+./scripts/build.sh examples/hello.vpl hello
 ```
 
 ---
@@ -53,7 +53,7 @@ v-lang/
 │   ├── codegen.py    # LLVM module / execution engine setup
 │   └── cli.py        # `vlang` CLI entry point
 ├── examples/
-│   └── hello.van     # Sample program
+│   └── hello.vpl     # Sample program
 ├── tests/
 │   └── test_lexer.py # Lexer unit tests
 ├── scripts/
@@ -82,13 +82,15 @@ pytest tests/ -v
 | `trường_hợp` | case | So sánh nhiều trường hợp |
 | `lớp` | class | Định nghĩa lớp |
 | `hàm` | def / func | Định nghĩa hàm |
+| `hằng_số` | const | Khai báo hằng số |
 | `kết_thúc` | end | Kết thúc khối lệnh |
+| `khai_báo` | let / var | Khai báo biến mới |
 | `sai` | false | Giá trị boolean false |
 | `lặp` | for | Vòng lặp for |
 | `nếu` | if | Điều kiện if |
 | `khác_thì` | else | Điều kiện else |
 | `tiếp_theo` | next | Nhảy sang vòng lặp tiếp theo |
-| `rỗng` | null | Giá trị null |
+| `trống` | null / nil | Giá trị trống/null |
 | `không` | not | Phủ định logic `!` |
 | `hoặc` | or | Toán tử logic `\|\|` |
 | `trả_về` | return | Trả về giá trị |
@@ -137,7 +139,7 @@ in_ra(4 + 4 - 2)
 ## Manual Build Steps (without the CLI)
 
 ```bash
-python -m vlang.cli compile examples/hello.van
+python -m vlang.cli compile examples/hello.vpl
 llc -filetype=obj -relocation-model=pic output.ll
 gcc output.o -o output
 ./output

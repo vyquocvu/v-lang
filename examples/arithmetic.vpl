@@ -1,0 +1,19 @@
+# Các phép tính số học / Arithmetic Examples
+
+# Phép cộng / Addition
+in_ra(10 + 5)
+
+# Phép trừ / Subtraction
+in_ra(10 - 3)
+
+# Phép nhân / Multiplication
+in_ra(4 * 4)
+
+# Phép chia / Division
+in_ra(20 / 4)
+
+# Biểu thức phức tạp / Complex expression
+in_ra(2 + 3 * 4)
+
+# Ngoặc đơn / Parentheses
+in_ra((2 + 3) * 4)

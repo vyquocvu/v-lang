@@ -2,13 +2,13 @@
 CLI entry point for the vlang compiler.
 
 Usage:
-    vlang compile <source.van>              Compile to LLVM IR (output.ll)
-    vlang compile <source.van> -o <name>   Compile + link to native binary
-    vlang compile <source.van> --ir-only   Only emit LLVM IR (default)
+    vlang compile <source.vpl>              Compile to LLVM IR (output.ll)
+    vlang compile <source.vpl> -o <name>   Compile + link to native binary
+    vlang compile <source.vpl> --ir-only   Only emit LLVM IR (default)
 
 Examples:
-    vlang compile examples/hello.van
-    vlang compile examples/hello.van -o hello
+    vlang compile examples/hello.vpl
+    vlang compile examples/hello.vpl -o hello
 """
 
 import argparse
@@ -46,7 +46,7 @@ def _compile(source: Path, output_name: str | None, ir_only: bool) -> int:
 
     try:
         parser.parse(tokens).eval()
-    except ValueError as exc:
+    except Exception as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
@@ -88,8 +88,8 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     sub = ap.add_subparsers(dest="command", required=True)
 
-    compile_cmd = sub.add_parser("compile", help="Compile a .van source file")
-    compile_cmd.add_argument("source", type=Path, help="Source file (.van)")
+    compile_cmd = sub.add_parser("compile", help="Compile a .vpl source file")
+    compile_cmd.add_argument("source", type=Path, help="Source file (.vpl)")
     compile_cmd.add_argument(
         "-o", "--output", metavar="NAME", dest="output_name",
         help="Link to a native binary with this name",

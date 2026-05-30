@@ -1,7 +1,7 @@
 """
 Lexer for the vlang compiler.
 
-Uses ``rply.LexerGenerator`` to tokenize .van source files.
+Uses ``rply.LexerGenerator`` to tokenize .vpl source files.
 Token names use Vietnamese transliterations:
 
     IN_RA          — in_ra  (print)
@@ -60,10 +60,12 @@ class Lexer:
         self._lg.add("NHAN", r"\*")
         self._lg.add("CHIA", r"\/")
 
-        # ------------------------------------------------------------------
-        # Literals
-        # ------------------------------------------------------------------
         self._lg.add("SO_NGUYEN", r"\d+")
+
+        # ------------------------------------------------------------------
+        # Identifiers (supporting Unicode / accented Vietnamese)
+        # ------------------------------------------------------------------
+        self._lg.add("IDENTIFIER", r"[^\W\d][\w]*")
 
         # ------------------------------------------------------------------
         # Statement terminator — newline (or CRLF)
@@ -71,9 +73,7 @@ class Lexer:
         self._lg.add("HET_DONG", r"(\n)|(\r\n)")
 
         # ------------------------------------------------------------------
-        # Ignored: leading whitespace on a line, spaces, tabs
-        # ------------------------------------------------------------------
-        self._lg.ignore(r"(^\s+)|( )+|\t+")
+        self._lg.ignore(r"[ \t]+")
 
     def get_lexer(self):
         """Build and return the rply lexer object."""

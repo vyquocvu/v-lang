@@ -10,13 +10,17 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "rply",
-    "llvmlite",
+    "llvmlite>=0.40.0,<0.44.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8",
-    "ruff",
+    "pytest-cov>=5",
+    "hypothesis>=6",
+    "syrupy>=4",
+    "ruff>=0.4",
+    "mypy>=1.10",
 ]
 
 [project.scripts]
@@ -40,3 +44,39 @@ select = ["E", "F", "W", "I", "UP"]
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--cov=vlang",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+]
+
+# ---------------------------------------------------------------------------
+# Coverage
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+source = ["vlang"]
+branch = true
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+fail_under = 30           # raise as phases complete: 30 → 60 → 75 → 90
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "@(abc\\.)?abstractmethod",
+]
+
+# ---------------------------------------------------------------------------
+# Mypy
+# ---------------------------------------------------------------------------
+[tool.mypy]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests/", "scripts/"]
