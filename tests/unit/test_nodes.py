@@ -43,10 +43,6 @@ class TestNumberNode:
         val = node.eval()
         assert val.constant == 0
 
-    @pytest.mark.xfail(
-        reason="Bug: Number uses 8-bit integers which caps/overflows above 127",
-        strict=True,
-    )
     def test_number_large_value_i64(self, builder, module):
         """Large values should use i64 (or at least i32) and not overflow/wrap."""
         node = Number(builder, module, "999")
@@ -137,10 +133,6 @@ class TestPrintNode:
         ir_text = str(module)
         assert 'c"%i \\0a\\00"' in ir_text
 
-    @pytest.mark.xfail(
-        reason="Bug: duplicate global fstr name conflict on 2nd print",
-        strict=True,
-    )
     def test_print_twice_no_conflict(self, builder, module, printf):
         """Two print node evaluations shouldn't result in duplicate global variables in the module."""
         val1 = Number(builder, module, "42")

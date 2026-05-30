@@ -27,7 +27,7 @@ class Number:
         self.value = value
 
     def eval(self) -> ir.Constant:
-        return ir.Constant(ir.IntType(8), int(self.value))
+        return ir.Constant(ir.IntType(64), int(self.value))
 
 
 # ---------------------------------------------------------------------------
@@ -113,10 +113,13 @@ class Print:
             ir.ArrayType(ir.IntType(8), len(fmt)),
             bytearray(fmt.encode("utf8")),
         )
-        global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr")
-        global_fmt.linkage = "internal"
-        global_fmt.global_constant = True
-        global_fmt.initializer = c_fmt
+        if "fstr" in self.module.globals:
+            global_fmt = self.module.get_global("fstr")
+        else:
+            global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr")
+            global_fmt.linkage = "internal"
+            global_fmt.global_constant = True
+            global_fmt.initializer = c_fmt
         fmt_arg = self.builder.bitcast(global_fmt, voidptr_ty)
 
         self.builder.call(self.printf, [fmt_arg, value])
