@@ -1,0 +1,25 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Build / distribution
+*.egg-info/
+dist/
+build/
+
+# LLVM compiler outputs
+output.ll
+output.o
+output
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

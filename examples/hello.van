@@ -1,0 +1,5 @@
+# Ví dụ cơ bản — in ra kết quả các phép tính
+# Basic example — print arithmetic results
+
+in_ra(4 + 4 - 2)
+in_ra(4 - 2)
