@@ -1,0 +1,32 @@
+# Thuật toán Sắp xếp chọn (Selection Sort)
+# Sắp xếp một mảng số nguyên theo thứ tự tăng dần
+
+hàm sắp_xếp_chọn(mảng, n)
+  khai_báo i = 0
+  khi i < n - 1 thì
+    khai_báo vị_trí_nhỏ_nhất = i
+    khai_báo j = i + 1
+    khi j < n thì
+      nếu mảng[j] < mảng[vị_trí_nhỏ_nhất] thì
+        vị_trí_nhỏ_nhất = j
+      hết
+      j = j + 1
+    hết
+    # Tráo đổi (Swap)
+    khai_báo tạm = mảng[i]
+    mảng[i] = mảng[vị_trí_nhỏ_nhất]
+    mảng[vị_trí_nhỏ_nhất] = tạm
+    i = i + 1
+  hết
+hết
+
+# Khởi tạo mảng và sắp xếp
+khai_báo m = [64, 25, 12, 22, 11]
+sắp_xếp_chọn(m, 5)
+
+# In ra kết quả
+in_ra(m[0])
+in_ra(m[1])
+in_ra(m[2])
+in_ra(m[3])
+in_ra(m[4])

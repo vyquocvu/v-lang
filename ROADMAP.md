@@ -35,7 +35,7 @@ If a behavior is not tested, it is not specified.
 
 | Bug | Test that will catch it | Status |
 |---|---|---|
-| Grammar accepts only 1 statement | `test_parser.py::test_multiple_statements` | 🔴 RED (xfail) |
+| Grammar accepts only 1 statement | `test_parser.py::test_multiple_statements` | ✅ Fixed |
 | `Number` uses `i8` (caps at 127) | `test_nodes.py::test_number_large_value` | ✅ Fixed (uses i64) |
 | `global_fmt` name conflict on 2nd `in_ra` | `test_nodes.py::test_print_twice` | ✅ Fixed (reuses fstr) |
 | Parenthesized expressions unsupported | `test_parser.py::test_parens_override_precedence` | ✅ Fixed (expression_parens) |
@@ -131,10 +131,10 @@ TestParserBasic
   ✅ test_parse_parenthesized_expr       → in_ra((2+3)*4)\n
   ✅ test_parse_nested_arithmetic        → in_ra(1+2*3)\n
 
-TestParserMultipleStatements (RED — bugs out currently)
-  🔴 test_two_print_statements           → 2 lines → [Print, Print]
-  🔴 test_three_print_statements
-  🔴 test_empty_program                  → "" → []
+TestParserMultipleStatements
+  ✅ test_two_print_statements           → 2 lines → [Print, Print]
+  ✅ test_three_print_statements
+  ✅ test_empty_program                  → "" → []
 
 TestParserPrecedence
   ✅ test_mul_before_add                 → 2+3*4 → Sum(2, Mul(3,4)) not Mul(Sum(2,3),4)
@@ -256,7 +256,7 @@ programs/
     ✅ 04_division.vpl         → 5
     ✅ 05_precedence.vpl       → 14
     ✅ 06_parentheses.vpl      → 20
-    🔴 07_chained.vpl          → (multiple prints)
+    ✅ 07_chained.vpl          → (multiple prints)
 ```
 
 ---

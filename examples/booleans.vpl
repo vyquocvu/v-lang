@@ -1,0 +1,17 @@
+# Ví dụ về kiểu Boolean và điều kiện rẽ nhánh dùng tiếng Việt không dấu
+# Example of Boolean types and conditionals using unaccented Vietnamese
+
+khai_bao la_dung = dung
+khai_bao la_sai = sai
+
+neu la_dung thi
+  in_ra(1)
+khac_thi
+  in_ra(0)
+het
+
+neu la_sai thi
+  in_ra(0)
+khac_thi
+  in_ra(1)
+het

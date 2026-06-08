@@ -249,9 +249,9 @@ class TestParserErrors:
             _parse("in_ra(@)\n")
 
     def test_invalid_start_raises(self):
-        """A line that doesn't start with in_ra raises (current grammar)."""
+        """Invalid syntax raises ParseError."""
         with pytest.raises(Exception):
-            _parse("42\n")
+            _parse("+ 42\n")
 
 
 # ---------------------------------------------------------------------------

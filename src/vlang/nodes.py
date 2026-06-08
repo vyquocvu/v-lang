@@ -30,6 +30,21 @@ class Number:
         return ir.Constant(ir.IntType(64), int(self.value))
 
 
+class Boolean:
+    """A boolean literal node.
+
+    Emits an LLVM i1 constant when evaluated.
+    """
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, value: bool) -> None:
+        self.builder = builder
+        self.module = module
+        self.value = value
+
+    def eval(self, env: dict | None = None) -> ir.Constant:
+        return ir.Constant(ir.IntType(1), 1 if self.value else 0)
+
+
 # ---------------------------------------------------------------------------
 # Binary operator base class
 # ---------------------------------------------------------------------------
@@ -178,8 +193,8 @@ class VarDecl:
 
     def eval(self, env: dict | None = None) -> None:
         env = env if env is not None else {}
-        ptr = self.builder.alloca(ir.IntType(64), name=self.name)
         val = self.expr.eval(env)
+        ptr = self.builder.alloca(val.type, name=self.name)
         self.builder.store(val, ptr)
         env[self.name] = ptr
 
@@ -417,5 +432,101 @@ class CallExpr:
         else:
             raise ValueError(f"Hàm chưa được định nghĩa: {self.name}")
 
-        arg_vals = [arg.eval(env) for arg in self.args]
+        arg_vals = []
+        for arg in self.args:
+            val = arg.eval(env)
+            if isinstance(val.type, ir.PointerType):
+                val = self.builder.ptrtoint(val, ir.IntType(64))
+            arg_vals.append(val)
         return self.builder.call(func, arg_vals)
+
+
+class ArrayLiteral:
+    """An array literal node: [expr1, expr2, ...].
+
+    Allocates a fixed-size array on the stack, stores evaluated values,
+    and returns a decayed pointer to the first element (i64*).
+    """
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, elements: list) -> None:
+        self.builder = builder
+        self.module = module
+        self.elements = elements
+
+    def eval(self, env: dict | None = None) -> ir.Instruction:
+        env = env if env is not None else {}
+        size = len(self.elements)
+        # Default to i64 if empty
+        elem_type = ir.IntType(64)
+        if size > 0:
+            first_val = self.elements[0].eval(env)
+            elem_type = first_val.type
+
+        arr_type = ir.ArrayType(elem_type, size)
+        # Allocate the array on the stack
+        arr_alloc = self.builder.alloca(arr_type, name="array_literal")
+
+        # Store each element
+        for i, expr in enumerate(self.elements):
+            val = expr.eval(env)
+            elem_ptr = self.builder.gep(arr_alloc, [
+                ir.Constant(ir.IntType(32), 0),
+                ir.Constant(ir.IntType(32), i)
+            ])
+            self.builder.store(val, elem_ptr)
+
+        # Decay to a pointer to the first element (i64*)
+        return self.builder.gep(arr_alloc, [
+            ir.Constant(ir.IntType(32), 0),
+            ir.Constant(ir.IntType(32), 0)
+        ])
+
+
+class ArrayIndex:
+    """An array indexing read node: array[index]."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, array_expr, index_expr) -> None:
+        self.builder = builder
+        self.module = module
+        self.array_expr = array_expr
+        self.index_expr = index_expr
+
+    def eval(self, env: dict | None = None) -> ir.Instruction:
+        env = env if env is not None else {}
+        arr_val = self.array_expr.eval(env)
+        
+        # If the array was passed as an integer parameter, cast it back to i64*
+        if arr_val.type == ir.IntType(64):
+            arr_ptr = self.builder.inttoptr(arr_val, ir.PointerType(ir.IntType(64)))
+        else:
+            arr_ptr = arr_val
+
+        idx_val = self.index_expr.eval(env)
+        elem_ptr = self.builder.gep(arr_ptr, [idx_val])
+        return self.builder.load(elem_ptr)
+
+
+class ArrayAssign:
+    """An array indexing write node: array[index] = value."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, array_expr, index_expr, value_expr) -> None:
+        self.builder = builder
+        self.module = module
+        self.array_expr = array_expr
+        self.index_expr = index_expr
+        self.value_expr = value_expr
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        arr_val = self.array_expr.eval(env)
+        
+        # If the array was passed as an integer parameter, cast it back to i64*
+        if arr_val.type == ir.IntType(64):
+            arr_ptr = self.builder.inttoptr(arr_val, ir.PointerType(ir.IntType(64)))
+        else:
+            arr_ptr = arr_val
+
+        idx_val = self.index_expr.eval(env)
+        val = self.value_expr.eval(env)
+        elem_ptr = self.builder.gep(arr_ptr, [idx_val])
+        self.builder.store(val, elem_ptr)

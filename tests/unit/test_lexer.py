@@ -278,4 +278,26 @@ class TestVietnameseAccents:
         assert _tokenize("_điểm_trung_bình") == [("IDENTIFIER", "_điểm_trung_bình")]
 
 
+# ---------------------------------------------------------------------------
+# Unaccented Keywords & Booleans
+# ---------------------------------------------------------------------------
+
+class TestUnaccentedKeywordsAndBooleans:
+    """Verify that unaccented keywords and boolean literal tokens lex correctly."""
+
+    def test_unaccented_keywords(self):
+        assert _tokenize("khai_bao") == [("KHAI_BAO", "khai_bao")]
+        assert _tokenize("thi") == [("THI", "thi")]
+        assert _tokenize("het") == [("KET_THUC", "het")]
+        assert _tokenize("neu") == [("NEU", "neu")]
+        assert _tokenize("khac_thi") == [("KHAC_THI", "khac_thi")]
+        assert _tokenize("ham") == [("HAM", "ham")]
+        assert _tokenize("tra_ve") == [("TRA_VE", "tra_ve")]
+
+    def test_boolean_literals(self):
+        assert _tokenize("đúng") == [("DUNG", "đúng")]
+        assert _tokenize("dung") == [("DUNG", "dung")]
+        assert _tokenize("sai") == [("SAI", "sai")]
+
+
 

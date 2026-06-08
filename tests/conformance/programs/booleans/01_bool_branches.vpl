@@ -1,0 +1,12 @@
+khai_báo là_đúng = đúng
+khai_báo là_sai = sai
+
+nếu là_đúng thì
+  in_ra(10)
+hết
+
+nếu là_sai thì
+  in_ra(20)
+khác_thì
+  in_ra(30)
+hết

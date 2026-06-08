@@ -10,6 +10,7 @@ from llvmlite import ir
 
 from vlang.nodes import (
     Number,
+    Boolean,
     Sum,
     Sub,
     Print,
@@ -26,6 +27,9 @@ from vlang.nodes import (
     FuncDef,
     ReturnStmt,
     CallExpr,
+    ArrayLiteral,
+    ArrayIndex,
+    ArrayAssign,
 )
 
 # All token names the parser may encounter.
@@ -56,6 +60,10 @@ _TOKENS = [
     "LON_HON",
     "NHO_HON",
     "IDENTIFIER",
+    "DUNG",
+    "SAI",
+    "MO_NGOAC_VUONG",
+    "DONG_NGOAC_VUONG",
 ]
 
 # Operator precedence (low → high, left-associative by default).
@@ -63,6 +71,7 @@ _PRECEDENCE = [
     ("left", ["BANG", "BANG_LON_HON", "BANG_NHO_HON", "KHAC", "LON_HON", "NHO_HON"]),
     ("left", ["CONG", "TRU"]),
     ("left", ["NHAN", "CHIA"]),
+    ("left", ["MO_NGOAC_VUONG"]),
 ]
 
 
@@ -100,6 +109,10 @@ class Parser:
         def statement_print(p):
             return Print(self.builder, self.module, self.printf, p[2])
 
+        @self._pg.production("statement : expression HET_DONG")
+        def statement_expr(p):
+            return p[0]
+
         @self._pg.production("statement : KHAI_BAO IDENTIFIER GAN expression HET_DONG")
         def statement_khai_bao(p):
             return VarDecl(self.builder, self.module, p[1].value, p[3])
@@ -107,6 +120,10 @@ class Parser:
         @self._pg.production("statement : IDENTIFIER GAN expression HET_DONG")
         def statement_assign(p):
             return VarAssign(self.builder, self.module, p[0].value, p[2])
+
+        @self._pg.production("statement : expression MO_NGOAC_VUONG expression DONG_NGOAC_VUONG GAN expression HET_DONG")
+        def statement_array_assign(p):
+            return ArrayAssign(self.builder, self.module, p[0], p[2], p[5])
 
         @self._pg.production("statement : KHI expression THI HET_DONG statements KET_THUC HET_DONG")
         def statement_while(p):
@@ -171,9 +188,25 @@ class Parser:
         def number(p):
             return Number(self.builder, self.module, p[0].value)
 
+        @self._pg.production("expression : DUNG")
+        def expression_dung(p):
+            return Boolean(self.builder, self.module, True)
+
+        @self._pg.production("expression : SAI")
+        def expression_sai(p):
+            return Boolean(self.builder, self.module, False)
+
         @self._pg.production("expression : MO_NGOAC_TRON expression DONG_NGOAC_TRON")
         def expression_parens(p):
             return p[1]
+
+        @self._pg.production("expression : MO_NGOAC_VUONG arg_list DONG_NGOAC_VUONG")
+        def expression_array_literal(p):
+            return ArrayLiteral(self.builder, self.module, p[1])
+
+        @self._pg.production("expression : expression MO_NGOAC_VUONG expression DONG_NGOAC_VUONG")
+        def expression_array_index(p):
+            return ArrayIndex(self.builder, self.module, p[0], p[2])
 
         # Parameter list helpers
         @self._pg.production("param_list : ")
