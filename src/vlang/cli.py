@@ -62,12 +62,25 @@ def _compile(source: Path, output_name: str | None, ir_only: bool) -> int:
     obj_path = Path("output.o")
     binary_path = Path(output_name)
 
-    steps = [
-        (["llc", "-filetype=obj", "-relocation-model=pic", str(ir_path)],
-         f"llc → {obj_path}"),
-        (["gcc", str(obj_path), "-o", str(binary_path)],
-         f"gcc → {binary_path}"),
-    ]
+    import shutil
+    has_llc = shutil.which("llc") is not None
+    has_clang = shutil.which("clang") is not None
+
+    if has_llc:
+        steps = [
+            (["llc", "-filetype=obj", "-relocation-model=pic", str(ir_path)],
+             f"llc → {obj_path}"),
+            (["gcc", str(obj_path), "-o", str(binary_path)],
+             f"gcc → {binary_path}"),
+        ]
+    elif has_clang:
+        steps = [
+            (["clang", str(ir_path), "-o", str(binary_path)],
+             f"clang → {binary_path}"),
+        ]
+    else:
+        print("error: neither 'llc' nor 'clang' was found in PATH. Cannot compile to native binary.", file=sys.stderr)
+        return 1
 
     for cmd, label in steps:
         result = subprocess.run(cmd)

@@ -1,0 +1,28 @@
+# Dãy Fibonacci / Fibonacci Sequence
+# In ra các số Fibonacci đầu tiên bằng biểu thức số học
+# Prints the first few Fibonacci numbers using arithmetic expressions
+# (since functions/loops are not yet supported by the compiler).
+
+# F(0) = 0
+in_ra(0)
+
+# F(1) = 1
+in_ra(1)
+
+# F(2) = F(1) + F(0)
+in_ra(1 + 0)
+
+# F(3) = F(2) + F(1)
+in_ra(1 + 1)
+
+# F(4) = F(3) + F(2)
+in_ra((1 + 1) + 1)
+
+# F(5) = F(4) + F(3)
+in_ra(((1 + 1) + 1) + (1 + 1))
+
+# F(6) = F(5) + F(4)
+in_ra((((1 + 1) + 1) + (1 + 1)) + ((1 + 1) + 1))
+
+# F(7) = F(6) + F(5)
+in_ra(((((1 + 1) + 1) + (1 + 1)) + ((1 + 1) + 1)) + (((1 + 1) + 1) + (1 + 1)))

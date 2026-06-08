@@ -10,7 +10,7 @@
 ```
 hàm cộng(a, b)
   trả_về a + b
-kết_thúc
+hết
 
 in_ra(cộng(3, 4))
 ```
@@ -23,9 +23,9 @@ in_ra(cộng(3, 4))
 hàm giai_thừa(n)
   nếu n <= 1 thì
     trả_về 1
-  kết_thúc
+  hết
   trả_về n * giai_thừa(n - 1)
-kết_thúc
+hết
 
 in_ra(giai_thừa(5))
 ```
@@ -37,7 +37,7 @@ in_ra(giai_thừa(5))
 ```
 hàm hình_chữ_nhật(chiều_dài, chiều_rộng)
   trả_về chiều_dài * chiều_rộng
-kết_thúc
+hết
 
 in_ra(hình_chữ_nhật(4, 5))
 ```
@@ -49,7 +49,7 @@ in_ra(hình_chữ_nhật(4, 5))
 ```
 hàm in_lời_chào(tên)
   in_ra(tên)
-kết_thúc
+hết
 
 in_lời_chào("Việt Nam")
 ```

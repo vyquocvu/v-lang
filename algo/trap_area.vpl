@@ -1,0 +1,5 @@
+# Tính diện tích hình thang có hai đáy là 3 và 5, chiều cao là 4
+# Công thức: (đáy_lớn + đáy_bé) * chiều_cao / 2
+# Trapezoid area: (a + b) * h / 2
+
+in_ra((3 + 5) * 4 / 2)

@@ -1,0 +1,5 @@
+# Quy đổi độ C sang độ F (với đầu vào là 30 độ C)
+# Công thức: C * 9 / 5 + 32
+# Celsius to Fahrenheit conversion
+
+in_ra(30 * 9 / 5 + 32)

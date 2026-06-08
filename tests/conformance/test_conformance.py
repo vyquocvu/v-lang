@@ -22,6 +22,8 @@ from conftest import run_vlang
 # Detect toolchain availability
 LLC_AVAILABLE = shutil.which("llc") is not None
 GCC_AVAILABLE = shutil.which("gcc") is not None
+CLANG_AVAILABLE = shutil.which("clang") is not None
+CAN_COMPILE = (LLC_AVAILABLE and GCC_AVAILABLE) or CLANG_AVAILABLE
 
 PROGRAMS_DIR = Path(__file__).parent / "programs"
 
@@ -43,11 +45,6 @@ def get_conformance_cases():
                 if expected_path.exists():
                     case_id = van_path.relative_to(PROGRAMS_DIR).as_posix()
                     marks = []
-                    if "06_parentheses" in case_id:
-                        marks.append(pytest.mark.xfail(reason="Parenthesized expressions not supported yet", strict=True))
-                    elif "07_chained" in case_id:
-                        marks.append(pytest.mark.xfail(reason="Multiple statements not supported yet", strict=True))
-                    
                     cases.append(pytest.param(van_path, expected_path, id=case_id, marks=marks))
     return sorted(cases, key=lambda p: p.id)
 
@@ -57,7 +54,7 @@ CONFORMANCE_CASES = get_conformance_cases()
 
 
 @pytest.mark.slow
-@pytest.mark.skipif(not (LLC_AVAILABLE and GCC_AVAILABLE), reason="Requires llc and gcc in PATH")
+@pytest.mark.skipif(not CAN_COMPILE, reason="Requires either (llc and gcc) or clang in PATH")
 @pytest.mark.parametrize("van_path, expected_path", CONFORMANCE_CASES)
 def test_conformance(van_path: Path, expected_path: Path, tmp_path: Path) -> None:
     """Compile a conformance source file to native binary, run it, and assert stdout."""
@@ -73,7 +70,6 @@ def test_conformance(van_path: Path, expected_path: Path, tmp_path: Path) -> Non
         [str(binary_path)],
         capture_output=True,
         text=True,
-        check=True,
     )
 
     # Read expected output

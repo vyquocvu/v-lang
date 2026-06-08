@@ -264,7 +264,7 @@ class TestVietnameseAccents:
         assert _tokenize("điểm") == [("IDENTIFIER", "điểm")]
         assert _tokenize("tuổi") == [("IDENTIFIER", "tuổi")]
         assert _tokenize("kết_quả") == [("IDENTIFIER", "kết_quả")]
-        assert _tokenize("trả_về") == [("IDENTIFIER", "trả_về")]
+        assert _tokenize("trả_lại") == [("IDENTIFIER", "trả_lại")]
 
     def test_accented_identifier_uppercase(self):
         """Uppercase accented words are recognized as IDENTIFIER."""

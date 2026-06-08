@@ -1,0 +1,11 @@
+# Tính giai thừa của 5 bằng đệ quy / Recursive Factorial for 5!
+# 5! = 5 * 4 * 3 * 2 * 1 = 120
+
+hàm giai_thừa(n)
+  nếu n <= 1 thì
+    trả_về 1
+  hết
+  trả_về n * giai_thừa(n - 1)
+hết
+
+in_ra(giai_thừa(5))

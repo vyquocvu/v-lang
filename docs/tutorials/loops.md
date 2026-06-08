@@ -13,7 +13,7 @@ khai_báo đếm = 0
 khi đếm < 5 thì
   in_ra(đếm)
   đếm = đếm + 1
-kết_thúc
+hết
 ```
 
 **Kết quả:**
@@ -30,7 +30,7 @@ kết_thúc
 ```
 khi đúng thì
   in_ra(1)
-kết_thúc
+hết
 ```
 
 Dùng `ngắt` để thoát vòng lặp:
@@ -40,9 +40,9 @@ khai_báo x = 0
 khi đúng thì
   nếu x >= 10 thì
     ngắt
-  kết_thúc
+  hết
   x = x + 1
-kết_thúc
+hết
 in_ra(x)
 ```
 

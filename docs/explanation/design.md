@@ -19,7 +19,7 @@ có giúp người Việt học lập trình dễ hơn không?
 # Python                    # v-lang
 if x > 0:          →       nếu x > 0 thì
     print(x)       →         in_ra(x)
-                   →       kết_thúc
+                   →       hết
 ```
 
 ---
@@ -28,7 +28,7 @@ if x > 0:          →       nếu x > 0 thì
 
 ### 1. Tiếng Việt thuần / Pure Vietnamese
 Từ khóa phải là từ tiếng Việt thực sự, không phải viết tắt hay Latinh hóa.
-- ✅ `kết_thúc` (end)
+- ✅ `hết` (end)
 - ✅ `trả_về` (return)  
 - ❌ `ret` hoặc `return`
 
@@ -38,7 +38,7 @@ Từ khóa phải là từ tiếng Việt thực sự, không phải viết tắ
 # Dùng:
 nếu x > 0 thì
   in_ra(x)
-kết_thúc
+hết
 ```
 
 ### 3. LLVM làm backend / LLVM as backend

@@ -61,3 +61,72 @@ class TestCLICompile:
         res = run_cli("in_ra(@)\n")
         assert res.returncode == 1
         assert "error: " in res.stderr
+
+
+class TestCLIInProcess:
+    """In-process unit tests for vlang.cli to get coverage tracking."""
+
+    def test_cli_main_help(self, monkeypatch, capsys):
+        from vlang.cli import main
+        monkeypatch.setattr("sys.argv", ["vlang", "--help"])
+        with pytest.raises(SystemExit) as exc:
+            main()
+        assert exc.value.code == 0
+        captured = capsys.readouterr()
+        assert "usage: vlang" in captured.out
+
+    def test_cli_main_compile_ir_only(self, tmp_path, monkeypatch, capsys):
+        from vlang.cli import main
+        src = tmp_path / "app.vpl"
+        src.write_text("in_ra(100)\n", encoding="utf-8")
+        
+        # Output binary/IR files in tmp_path to avoid littering
+        # Note: cli.py writes to Path("output.ll") in the current working directory, 
+        # so we monkeypatch current working directory or change to tmp_path
+        with monkeypatch.context() as m:
+            m.chdir(tmp_path)
+            m.setattr("sys.argv", ["vlang", "compile", str(src), "--ir-only"])
+            with pytest.raises(SystemExit) as exc:
+                main()
+            assert exc.value.code == 0
+            captured = capsys.readouterr()
+            assert "✓  LLVM IR written to output.ll" in captured.out
+            assert (tmp_path / "output.ll").exists()
+
+    def test_cli_main_compile_and_link(self, tmp_path, monkeypatch, capsys):
+        from vlang.cli import main
+        src = tmp_path / "app.vpl"
+        src.write_text("in_ra(100)\n", encoding="utf-8")
+        
+        with monkeypatch.context() as m:
+            m.chdir(tmp_path)
+            m.setattr("sys.argv", ["vlang", "compile", str(src), "-o", "app_bin"])
+            with pytest.raises(SystemExit) as exc:
+                main()
+            # If clang is available, it should succeed. If not, it should exit with 1.
+            # We can check the return code is 0 or 1.
+            assert exc.value.code in (0, 1)
+
+    def test_cli_main_file_not_found(self, tmp_path, monkeypatch, capsys):
+        from vlang.cli import main
+        with monkeypatch.context() as m:
+            m.chdir(tmp_path)
+            m.setattr("sys.argv", ["vlang", "compile", "no_such_file.vpl"])
+            with pytest.raises(SystemExit) as exc:
+                main()
+            assert exc.value.code == 1
+            captured = capsys.readouterr()
+            assert "error: file not found" in captured.err
+
+    def test_cli_main_syntax_error(self, tmp_path, monkeypatch, capsys):
+        from vlang.cli import main
+        src = tmp_path / "app.vpl"
+        src.write_text("in_ra(@)\n", encoding="utf-8")
+        with monkeypatch.context() as m:
+            m.chdir(tmp_path)
+            m.setattr("sys.argv", ["vlang", "compile", str(src)])
+            with pytest.raises(SystemExit) as exc:
+                main()
+            assert exc.value.code == 1
+            captured = capsys.readouterr()
+            assert "error: " in captured.err

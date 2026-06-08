@@ -18,7 +18,7 @@ from llvmlite import ir
 class Number:
     """An integer literal node.
 
-    Emits an LLVM i8 constant when evaluated.
+    Emits an LLVM i64 constant when evaluated.
     """
 
     def __init__(self, builder: ir.IRBuilder, module: ir.Module, value: str) -> None:
@@ -26,7 +26,7 @@ class Number:
         self.module = module
         self.value = value
 
-    def eval(self) -> ir.Constant:
+    def eval(self, env: dict | None = None) -> ir.Constant:
         return ir.Constant(ir.IntType(64), int(self.value))
 
 
@@ -57,29 +57,33 @@ class BinaryOp:
 class Sum(BinaryOp):
     """Addition: left + right  (cộng)."""
 
-    def eval(self) -> ir.instructions.Instruction:
-        return self.builder.add(self.left.eval(), self.right.eval())
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        return self.builder.add(self.left.eval(env), self.right.eval(env))
 
 
 class Sub(BinaryOp):
     """Subtraction: left - right  (trừ)."""
 
-    def eval(self) -> ir.instructions.Instruction:
-        return self.builder.sub(self.left.eval(), self.right.eval())
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        return self.builder.sub(self.left.eval(env), self.right.eval(env))
 
 
 class Mul(BinaryOp):
     """Multiplication: left * right  (nhân)."""
 
-    def eval(self) -> ir.instructions.Instruction:
-        return self.builder.mul(self.left.eval(), self.right.eval())
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        return self.builder.mul(self.left.eval(env), self.right.eval(env))
 
 
 class Div(BinaryOp):
     """Signed integer division: left / right  (chia)."""
 
-    def eval(self) -> ir.instructions.Instruction:
-        return self.builder.sdiv(self.left.eval(), self.right.eval())
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        return self.builder.sdiv(self.left.eval(env), self.right.eval(env))
 
 
 # ---------------------------------------------------------------------------
@@ -104,11 +108,12 @@ class Print:
         self.printf = printf
         self.value = value
 
-    def eval(self) -> None:
-        value = self.value.eval()
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        value = self.value.eval(env)
 
         voidptr_ty = ir.IntType(8).as_pointer()
-        fmt = "%i \n\0"
+        fmt = "%i\n\0"
         c_fmt = ir.Constant(
             ir.ArrayType(ir.IntType(8), len(fmt)),
             bytearray(fmt.encode("utf8")),
@@ -123,3 +128,294 @@ class Print:
         fmt_arg = self.builder.bitcast(global_fmt, voidptr_ty)
 
         self.builder.call(self.printf, [fmt_arg, value])
+
+
+class Program:
+    """A collection of statements representing a complete program."""
+
+    def __init__(
+        self,
+        builder: ir.IRBuilder,
+        module: ir.Module,
+        statements: list | None = None,
+    ) -> None:
+        self.builder = builder
+        self.module = module
+        self.statements = statements or []
+
+    def add_statement(self, statement) -> None:
+        self.statements.append(statement)
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        for stmt in self.statements:
+            stmt.eval(env)
+
+
+class EmptyStatement:
+    """An empty statement (e.g. newline or comment)."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module) -> None:
+        self.builder = builder
+        self.module = module
+
+    def eval(self, env: dict | None = None) -> None:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# Variable nodes
+# ---------------------------------------------------------------------------
+
+class VarDecl:
+    """Variable declaration node: khai_báo name = expr."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, name: str, expr) -> None:
+        self.builder = builder
+        self.module = module
+        self.name = name
+        self.expr = expr
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        ptr = self.builder.alloca(ir.IntType(64), name=self.name)
+        val = self.expr.eval(env)
+        self.builder.store(val, ptr)
+        env[self.name] = ptr
+
+
+class VarAssign:
+    """Variable assignment node: name = expr."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, name: str, expr) -> None:
+        self.builder = builder
+        self.module = module
+        self.name = name
+        self.expr = expr
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        if self.name not in env:
+            raise ValueError(f"Biến chưa được khai báo: {self.name}")
+        ptr = env[self.name]
+        val = self.expr.eval(env)
+        self.builder.store(val, ptr)
+
+
+class VarRef:
+    """Variable reference node: name."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, name: str) -> None:
+        self.builder = builder
+        self.module = module
+        self.name = name
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        if self.name not in env:
+            raise ValueError(f"Biến chưa được khai báo: {self.name}")
+        ptr = env[self.name]
+        return self.builder.load(ptr, name=self.name)
+
+
+# ---------------------------------------------------------------------------
+# Comparison node
+# ---------------------------------------------------------------------------
+
+class Compare:
+    """Comparison operator node: left op right."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, left, op_token: str, right) -> None:
+        self.builder = builder
+        self.module = module
+        self.left = left
+        self.op_token = op_token
+        self.right = right
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        l_val = self.left.eval(env)
+        r_val = self.right.eval(env)
+
+        op_map = {
+            "BANG": "==",
+            "BANG_LON_HON": ">=",
+            "BANG_NHO_HON": "<=",
+            "KHAC": "!=",
+            "LON_HON": ">",
+            "NHO_HON": "<",
+        }
+        llvm_op = op_map[self.op_token]
+        return self.builder.icmp_signed(llvm_op, l_val, r_val)
+
+
+# ---------------------------------------------------------------------------
+# Loop node
+# ---------------------------------------------------------------------------
+
+class WhileLoop:
+    """While loop node: khi condition thì ... hết."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, condition, body) -> None:
+        self.builder = builder
+        self.module = module
+        self.condition = condition
+        self.body = body
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+
+        cond_block = self.builder.append_basic_block("loop_cond")
+        body_block = self.builder.append_basic_block("loop_body")
+        end_block = self.builder.append_basic_block("loop_end")
+
+        self.builder.branch(cond_block)
+
+        self.builder.position_at_end(cond_block)
+        cond_val = self.condition.eval(env)
+        if cond_val.type != ir.IntType(1):
+            cond_val = self.builder.icmp_signed("!=", cond_val, ir.Constant(cond_val.type, 0))
+        self.builder.cbranch(cond_val, body_block, end_block)
+
+        self.builder.position_at_end(body_block)
+        self.body.eval(env)
+        if not self.builder.block.is_terminated:
+            self.builder.branch(cond_block)
+
+        self.builder.position_at_end(end_block)
+
+
+# ---------------------------------------------------------------------------
+# Conditional node
+# ---------------------------------------------------------------------------
+
+class IfStmt:
+    """If statement node: nếu condition thì ... [khác_thì ...] hết."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, condition, then_body, else_body=None) -> None:
+        self.builder = builder
+        self.module = module
+        self.condition = condition
+        self.then_body = then_body
+        self.else_body = else_body
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+
+        cond_val = self.condition.eval(env)
+        if cond_val.type != ir.IntType(1):
+            cond_val = self.builder.icmp_signed("!=", cond_val, ir.Constant(cond_val.type, 0))
+
+        then_block = self.builder.append_basic_block("if_then")
+        else_block = self.builder.append_basic_block("if_else") if self.else_body else None
+        merge_block = self.builder.append_basic_block("if_merge")
+
+        if else_block:
+            self.builder.cbranch(cond_val, then_block, else_block)
+        else:
+            self.builder.cbranch(cond_val, then_block, merge_block)
+
+        # Build then block
+        self.builder.position_at_end(then_block)
+        self.then_body.eval(env)
+        if not self.builder.block.is_terminated:
+            self.builder.branch(merge_block)
+
+        # Build else block if it exists
+        if else_block:
+            self.builder.position_at_end(else_block)
+            self.else_body.eval(env)
+            if not self.builder.block.is_terminated:
+                self.builder.branch(merge_block)
+
+        # Position builder at merge block
+        self.builder.position_at_end(merge_block)
+
+
+# ---------------------------------------------------------------------------
+# Function nodes
+# ---------------------------------------------------------------------------
+
+class FuncDef:
+    """Function definition node: hàm name(params) ... hết."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, name: str, params: list[str], body) -> None:
+        self.builder = builder
+        self.module = module
+        self.name = name
+        self.params = params
+        self.body = body
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+
+        # All functions return i64 in our implementation
+        func_type = ir.FunctionType(ir.IntType(64), [ir.IntType(64)] * len(self.params))
+        func = ir.Function(self.module, func_type, name=self.name)
+        env[self.name] = func
+
+        # Build function entry
+        entry_block = func.append_basic_block("entry")
+        saved_block = self.builder.block
+
+        # Switch builder position to function block
+        self.builder.position_at_end(entry_block)
+
+        # Bind parameters to stack inside a local environment scope
+        local_env = {}
+        for k, v in env.items():
+            if isinstance(v, ir.Function):
+                local_env[k] = v
+
+        for param_name, arg in zip(self.params, func.args):
+            ptr = self.builder.alloca(ir.IntType(64), name=param_name)
+            self.builder.store(arg, ptr)
+            local_env[param_name] = ptr
+
+        # Evaluate body
+        self.body.eval(local_env)
+
+        # Handle missing return (implicit return 0)
+        if not self.builder.block.is_terminated:
+            self.builder.ret(ir.Constant(ir.IntType(64), 0))
+
+        # Restore builder to main module block
+        self.builder.position_at_end(saved_block)
+
+
+class ReturnStmt:
+    """Return statement node: trả_về expr."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, expr) -> None:
+        self.builder = builder
+        self.module = module
+        self.expr = expr
+
+    def eval(self, env: dict | None = None) -> None:
+        env = env if env is not None else {}
+        val = self.expr.eval(env)
+        self.builder.ret(val)
+
+
+class CallExpr:
+    """Call expression node: name(args)."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, name: str, args: list) -> None:
+        self.builder = builder
+        self.module = module
+        self.name = name
+        self.args = args
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+
+        # Check local env first
+        if self.name in env:
+            func = env[self.name]
+        elif self.name in self.module.globals:
+            func = self.module.get_global(self.name)
+        else:
+            raise ValueError(f"Hàm chưa được định nghĩa: {self.name}")
+
+        arg_vals = [arg.eval(env) for arg in self.args]
+        return self.builder.call(func, arg_vals)

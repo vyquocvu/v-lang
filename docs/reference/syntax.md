@@ -75,20 +75,20 @@ khai_báo tên = biểu_thức
 ```
 nếu điều_kiện thì
   # khối lệnh
-kết_thúc
+hết
 
 nếu điều_kiện thì
   # khối lệnh
 khác_thì
   # khối lệnh
-kết_thúc
+hết
 ```
 
 ### Vòng lặp / Loop (planned)
 ```
 khi điều_kiện thì
   # khối lệnh
-kết_thúc
+hết
 ```
 
 ### Hàm / Function (planned)
@@ -96,7 +96,7 @@ kết_thúc
 hàm tên_hàm(tham_số_1, tham_số_2)
   # thân hàm
   trả_về giá_trị
-kết_thúc
+hết
 ```
 
 ## Định danh / Identifiers
@@ -123,13 +123,13 @@ assignment   = "khai_báo" IDENTIFIER "=" expression NEWLINE ;
 if_stmt      = "nếu" expression "thì" NEWLINE
                statement+
                [ "khác_thì" NEWLINE statement+ ]
-               "kết_thúc" NEWLINE ;
+               "hết" NEWLINE ;
 while_stmt   = "khi" expression "thì" NEWLINE
                statement+
-               "kết_thúc" NEWLINE ;
+               "hết" NEWLINE ;
 func_def     = "hàm" IDENTIFIER "(" param_list ")" NEWLINE
                statement+
-               "kết_thúc" NEWLINE ;
+               "hết" NEWLINE ;
 expression   = expression ( "+" | "-" | "*" | "/" ) expression
              | expression ( "==" | "!=" | "<" | ">" | "<=" | ">=" ) expression
              | "(" expression ")"

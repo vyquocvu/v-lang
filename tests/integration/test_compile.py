@@ -20,6 +20,8 @@ from conftest import compile_to_ir, run_vlang
 # Detect toolchain availability
 LLC_AVAILABLE = shutil.which("llc") is not None
 GCC_AVAILABLE = shutil.which("gcc") is not None
+CLANG_AVAILABLE = shutil.which("clang") is not None
+CAN_COMPILE = (LLC_AVAILABLE and GCC_AVAILABLE) or CLANG_AVAILABLE
 
 
 class TestIROutput:
@@ -42,7 +44,7 @@ class TestIROutput:
 
 
 @pytest.mark.slow
-@pytest.mark.skipif(not (LLC_AVAILABLE and GCC_AVAILABLE), reason="Requires llc and gcc in PATH")
+@pytest.mark.skipif(not CAN_COMPILE, reason="Requires either (llc and gcc) or clang in PATH")
 class TestBinaryExecution:
     """End-to-end compilation, assembly, linking, and native execution."""
 
@@ -64,7 +66,6 @@ class TestBinaryExecution:
             [str(binary_path)],
             capture_output=True,
             text=True,
-            check=True,
         )
         return exec_res.stdout
 

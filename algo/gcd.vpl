@@ -1,0 +1,13 @@
+# Tìm ước chung lớn nhất (UCLN) của 48 và 18
+# Greatest Common Divisor of 48 and 18
+
+hàm ucln(a, b)
+  nếu b == 0 thì
+    trả_về a
+  hết
+  khai_báo chia = a / b
+  khai_báo dư = a - chia * b
+  trả_về ucln(b, dư)
+hết
+
+in_ra(ucln(48, 18))

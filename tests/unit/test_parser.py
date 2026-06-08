@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pytest
 
-from vlang.nodes import BinaryOp, Div, Mul, Number, Print, Sub, Sum
+from vlang.nodes import BinaryOp, Div, Mul, Number, Print, Sub, Sum, Program
 
 
 # ---------------------------------------------------------------------------
@@ -32,13 +32,17 @@ def _parse(source: str):
     from vlang.codegen import CodeGen
     from vlang.lexer import Lexer
     from vlang.parser import Parser
+    from vlang.nodes import Program
 
     cg = CodeGen()
     lexer = Lexer().get_lexer()
     tokens = lexer.lex(source)
     pg = Parser(cg.module, cg.builder, cg.printf)
     pg.parse()
-    return pg.get_parser().parse(tokens)
+    ast = pg.get_parser().parse(tokens)
+    if isinstance(ast, Program) and len(ast.statements) == 1:
+        return ast.statements[0]
+    return ast
 
 
 def _parse_raises(source: str) -> Exception:
@@ -137,10 +141,6 @@ class TestParserPrecedence:
         assert isinstance(node.value, Sub)
         assert isinstance(node.value.right, Div)
 
-    @pytest.mark.xfail(
-        reason="Grammar bug: parenthesized expressions not supported yet",
-        strict=True,
-    )
     def test_parens_override_precedence(self):
         """(2 + 3) * 4 → Mul(Sum(Number(2), Number(3)), Number(4))"""
         node = _parse("in_ra((2 + 3) * 4)\n")
@@ -157,10 +157,6 @@ class TestParserPrecedence:
         assert isinstance(node.value.left, Sum)
         assert isinstance(node.value.right, Number)
 
-    @pytest.mark.xfail(
-        reason="Grammar bug: parenthesized expressions not supported yet",
-        strict=True,
-    )
     def test_deeply_nested_parens(self):
         """((1 + 2)) parses without error."""
         node = _parse("in_ra(((1 + 2)))\n")
@@ -188,36 +184,32 @@ class TestParserMultipleStatements:
     DO NOT remove the xfail marks until the grammar is fixed.
     """
 
-    @pytest.mark.xfail(
-        reason="Grammar bug: only 1 statement supported — see ROADMAP.md Phase 1.2",
-        strict=True,  # fail if accidentally passes (would hide bug)
-    )
     def test_two_print_statements(self):
         """Two in_ra lines should both be parsed."""
         source = "in_ra(1)\nin_ra(2)\n"
         # After grammar fix, this should return a list or Program node
         result = _parse(source)
         # result should contain 2 Print nodes
-        assert result is not None
+        assert isinstance(result, Program)
+        assert len(result.statements) == 2
+        assert isinstance(result.statements[0], Print)
+        assert isinstance(result.statements[1], Print)
 
-    @pytest.mark.xfail(
-        reason="Grammar bug: only 1 statement supported",
-        strict=True,
-    )
     def test_three_print_statements(self):
         source = "in_ra(1)\nin_ra(2)\nin_ra(3)\n"
         result = _parse(source)
-        assert result is not None
+        assert isinstance(result, Program)
+        assert len(result.statements) == 3
+        assert all(isinstance(stmt, Print) for stmt in result.statements)
 
-    @pytest.mark.xfail(
-        reason="Grammar bug: only 1 statement supported",
-        strict=True,
-    )
     def test_arithmetic_then_print(self):
         """Program with two different arithmetic expressions."""
         source = "in_ra(1 + 2)\nin_ra(3 * 4)\n"
         result = _parse(source)
-        assert result is not None
+        assert isinstance(result, Program)
+        assert len(result.statements) == 2
+        assert isinstance(result.statements[0], Print)
+        assert isinstance(result.statements[1], Print)
 
 
 # ---------------------------------------------------------------------------

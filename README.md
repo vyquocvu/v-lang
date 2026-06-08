@@ -83,7 +83,7 @@ pytest tests/ -v
 | `lớp` | class | Định nghĩa lớp |
 | `hàm` | def / func | Định nghĩa hàm |
 | `hằng_số` | const | Khai báo hằng số |
-| `kết_thúc` | end | Kết thúc khối lệnh |
+| `hết` | end | Kết thúc khối lệnh |
 | `khai_báo` | let / var | Khai báo biến mới |
 | `sai` | false | Giá trị boolean false |
 | `lặp` | for | Vòng lặp for |

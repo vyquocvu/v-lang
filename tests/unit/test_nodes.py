@@ -131,7 +131,7 @@ class TestPrintNode:
         node = Print(builder, module, printf, val)
         node.eval()
         ir_text = str(module)
-        assert 'c"%i \\0a\\00"' in ir_text
+        assert 'c"%i\\0a\\00"' in ir_text
 
     def test_print_twice_no_conflict(self, builder, module, printf):
         """Two print node evaluations shouldn't result in duplicate global variables in the module."""

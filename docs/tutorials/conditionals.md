@@ -10,7 +10,7 @@
 ```
 nếu x > 10 thì
   in_ra(x)
-kết_thúc
+hết
 ```
 
 ## nếu / khác_thì / if / else
@@ -20,7 +20,7 @@ nếu x > 0 thì
   in_ra(1)
 khác_thì
   in_ra(0)
-kết_thúc
+hết
 ```
 
 ## Toán tử so sánh / Comparison Operators
