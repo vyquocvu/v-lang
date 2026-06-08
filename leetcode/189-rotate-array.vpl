@@ -1,0 +1,42 @@
+# Bài toán LeetCode 189: Xoay mảng / LeetCode 189: Rotate Array
+# Xoay mảng sang phải k bước. Thay đổi trực tiếp trên mảng đầu vào.
+
+hàm đảo_ngược(mảng, đầu, cuối)
+  khai_báo l = đầu
+  khai_báo r = cuối
+  khi l < r thì
+    khai_báo tạm = mảng[l]
+    mảng[l] = mảng[r]
+    mảng[r] = tạm
+    l = l + 1
+    r = r - 1
+  hết
+hết
+
+hàm xoay_mảng(mảng, n, k)
+  # Xử lý trường hợp k lớn hơn kích thước mảng bằng toán tử % mới thêm
+  khai_báo thực_k = k % n
+
+  nếu thực_k == 0 thì
+    trả_về 0
+  hết
+
+  # Xoay mảng bằng 3 lần đảo ngược:
+  # 1. Đảo ngược toàn bộ mảng
+  đảo_ngược(mảng, 0, n - 1)
+  # 2. Đảo ngược thực_k phần tử đầu tiên
+  đảo_ngược(mảng, 0, thực_k - 1)
+  # 3. Đảo ngược các phần tử còn lại
+  đảo_ngược(mảng, thực_k, n - 1)
+hết
+
+khai_báo nums = [1, 2, 3, 4, 5, 6, 7]
+xoay_mảng(nums, 7, 3)
+
+# Mảng sau khi xoay 3 bước sang phải: [5, 6, 7, 1, 2, 3, 4]
+# Mong đợi in ra: 5, 6, 7, 1, 2, 3, 4
+khai_báo i = 0
+khi i < 7 thì
+  in_ra(nums[i])
+  i = i + 1
+hết

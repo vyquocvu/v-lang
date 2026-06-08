@@ -16,6 +16,7 @@ from vlang.nodes import (
     Print,
     Mul,
     Div,
+    Mod,
     Program,
     EmptyStatement,
     VarDecl,
@@ -53,6 +54,7 @@ _TOKENS = [
     "TRU",
     "NHAN",
     "CHIA",
+    "CHIA_DU",
     "BANG",
     "BANG_LON_HON",
     "BANG_NHO_HON",
@@ -70,7 +72,7 @@ _TOKENS = [
 _PRECEDENCE = [
     ("left", ["BANG", "BANG_LON_HON", "BANG_NHO_HON", "KHAC", "LON_HON", "NHO_HON"]),
     ("left", ["CONG", "TRU"]),
-    ("left", ["NHAN", "CHIA"]),
+    ("left", ["NHAN", "CHIA", "CHIA_DU"]),
     ("left", ["MO_NGOAC_VUONG"]),
 ]
 
@@ -151,6 +153,7 @@ class Parser:
 
         @self._pg.production("expression : expression NHAN expression")
         @self._pg.production("expression : expression CHIA expression")
+        @self._pg.production("expression : expression CHIA_DU expression")
         @self._pg.production("expression : expression CONG expression")
         @self._pg.production("expression : expression TRU  expression")
         def expression(p):
@@ -160,6 +163,8 @@ class Parser:
                 return Mul(self.builder, self.module, left, right)
             if token == "CHIA":
                 return Div(self.builder, self.module, left, right)
+            if token == "CHIA_DU":
+                return Mod(self.builder, self.module, left, right)
             if token == "CONG":
                 return Sum(self.builder, self.module, left, right)
             if token == "TRU":

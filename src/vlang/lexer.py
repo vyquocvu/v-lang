@@ -73,6 +73,7 @@ class Lexer:
         self._lg.add("TRU",  r"\-")
         self._lg.add("NHAN", r"\*")
         self._lg.add("CHIA", r"\/")
+        self._lg.add("CHIA_DU", r"\%")
 
         self._lg.add("SO_NGUYEN", r"\d+")
 

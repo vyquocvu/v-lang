@@ -69,6 +69,9 @@ class TestArithmeticTokens:
     def test_division(self):
         assert _types("8 / 2") == ["SO_NGUYEN", "CHIA", "SO_NGUYEN"]
 
+    def test_modulo(self):
+        assert _types("5 % 2") == ["SO_NGUYEN", "CHIA_DU", "SO_NGUYEN"]
+
     def test_spaces_ignored_single(self):
         """Single spaces around operators are ignored."""
         without = _tokenize("1+2")

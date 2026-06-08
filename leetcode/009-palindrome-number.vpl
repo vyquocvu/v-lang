@@ -1,0 +1,37 @@
+# Bài toán LeetCode 9: Số đối xứng / LeetCode 9: Palindrome Number
+# Kiểm tra xem một số nguyên có phải là số đối xứng hay không.
+# Determine whether an integer is a palindrome.
+
+hàm là_số_đối_xứng(x)
+  # Số âm không thể là số đối xứng
+  nếu x < 0 thì
+    trả_về 0
+  hết
+
+  khai_báo gốc = x
+  khai_báo đảo_ngược = 0
+  khai_báo tạm = x
+
+  khi tạm > 0 thì
+    # Sử dụng toán tử % (chia lấy dư) đã được bổ sung vào ngôn ngữ
+    khai_báo chữ_số = tạm % 10
+    đảo_ngược = đảo_ngược * 10 + chữ_số
+    tạm = tạm / 10
+  hết
+
+  nếu gốc == đảo_ngược thì
+    trả_về 1
+  khác_thì
+    trả_về 0
+  hết
+hết
+
+# Kiểm tra
+# 121 -> 1 (đúng)
+in_ra(là_số_đối_xứng(121))
+
+# 123 -> 0 (sai)
+in_ra(là_số_đối_xứng(123))
+
+# 0 - 121 -> 0 (sai)
+in_ra(là_số_đối_xứng(0 - 121))

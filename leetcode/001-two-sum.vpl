@@ -1,0 +1,37 @@
+# Bài toán LeetCode 1: Hai số có tổng bằng Target / LeetCode 1: Two Sum
+# Tìm hai vị trí trong mảng sao cho tổng giá trị bằng Target.
+# Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+hàm tìm_hai_số_tổng(mảng, n, target, kết_quả)
+  khai_báo i = 0
+  khi i < n - 1 thì
+    khai_báo j = i + 1
+    khi j < n thì
+      nếu mảng[i] + mảng[j] == target thì
+        kết_quả[0] = i
+        kết_quả[1] = j
+        trả_về 1
+      hết
+      j = j + 1
+    hết
+    i = i + 1
+  hết
+  trả_về 0
+hết
+
+# Khởi tạo mảng đầu vào và target
+khai_báo nums = [2, 7, 11, 15]
+khai_báo target = 9
+khai_báo res = [0, 0]
+
+# Gọi hàm tìm kiếm
+khai_báo tìm_thấy = tìm_hai_số_tổng(nums, 4, target, res)
+
+nếu tìm_thấy == 1 thì
+  # In ra kết quả (vị trí/chỉ số của hai số)
+  # Đúng ra phải là:
+  # 0
+  # 1
+  in_ra(res[0])
+  in_ra(res[1])
+hết

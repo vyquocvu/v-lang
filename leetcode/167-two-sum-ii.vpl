@@ -1,0 +1,40 @@
+# Bài toán LeetCode 167: Hai số có tổng bằng Target II (Mảng đã sắp xếp)
+# LeetCode 167: Two Sum II - Input Array Is Sorted
+# Trả về các chỉ số bắt đầu từ 1 (1-indexed).
+
+hàm hai_số_tổng_hai(mảng, n, target, kết_quả)
+  khai_báo trái = 0
+  khai_báo phải = n - 1
+
+  khi trái < phải thì
+    khai_báo tổng = mảng[trái] + mảng[phải]
+    nếu tổng == target thì
+      kết_quả[0] = trái + 1
+      kết_quả[1] = phải + 1
+      trả_về 1
+    hết
+
+    nếu tổng < target thì
+      trái = trái + 1
+    khác_thì
+      phải = phải - 1
+    hết
+  hết
+
+  trả_về 0
+hết
+
+# Khởi tạo mảng đã sắp xếp và target
+khai_báo nums = [2, 7, 11, 15]
+khai_báo target = 9
+khai_báo res = [0, 0]
+
+khai_báo tìm_thấy = hai_số_tổng_hai(nums, 4, target, res)
+
+nếu tìm_thấy == 1 thì
+  # Kết quả mong đợi:
+  # 1
+  # 2
+  in_ra(res[0])
+  in_ra(res[1])
+hết

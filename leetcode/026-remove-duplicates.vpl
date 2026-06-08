@@ -1,0 +1,37 @@
+# Bài toán LeetCode 26: Loại bỏ phần tử trùng lặp trong mảng đã sắp xếp
+# LeetCode 26: Remove Duplicates from Sorted Array
+# Sửa đổi mảng tại chỗ, trả về số lượng phần tử duy nhất.
+
+hàm loại_bỏ_trùng_lặp(mảng, n)
+  nếu n <= 0 thì
+    trả_về 0
+  hết
+
+  khai_báo ghi = 0
+  khai_báo đọc = 1
+
+  khi đọc < n thì
+    nếu mảng[đọc] != mảng[ghi] thì
+      ghi = ghi + 1
+      mảng[ghi] = mảng[đọc]
+    hết
+    đọc = đọc + 1
+  hết
+
+  trả_về ghi + 1
+hết
+
+# Khởi tạo mảng đã sắp xếp có phần tử trùng lặp
+khai_báo nums = [1, 1, 2, 2, 3, 4, 4, 5]
+khai_báo n = 8
+
+khai_báo số_lượng = loại_bỏ_trùng_lặp(nums, n)
+# In ra số lượng phần tử duy nhất (mong đợi: 5)
+in_ra(số_lượng)
+
+# In ra các phần tử duy nhất đầu tiên (mong đợi: 1, 2, 3, 4, 5)
+khai_báo i = 0
+khi i < số_lượng thì
+  in_ra(nums[i])
+  i = i + 1
+hết

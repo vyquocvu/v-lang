@@ -101,6 +101,14 @@ class Div(BinaryOp):
         return self.builder.sdiv(self.left.eval(env), self.right.eval(env))
 
 
+class Mod(BinaryOp):
+    """Signed integer remainder: left % right (chia lấy dư)."""
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        return self.builder.srem(self.left.eval(env), self.right.eval(env))
+
+
 # ---------------------------------------------------------------------------
 # Statement nodes
 # ---------------------------------------------------------------------------

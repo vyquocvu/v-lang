@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pytest
 
-from vlang.nodes import BinaryOp, Div, Mul, Number, Print, Sub, Sum, Program
+from vlang.nodes import BinaryOp, Div, Mul, Mod, Number, Print, Sub, Sum, Program
 
 
 # ---------------------------------------------------------------------------
@@ -101,6 +101,10 @@ class TestParserBasic:
     def test_parse_division_produces_div(self):
         node = _parse("in_ra(10 / 2)\n")
         assert isinstance(node.value, Div)
+
+    def test_parse_modulo_produces_mod(self):
+        node = _parse("in_ra(10 % 2)\n")
+        assert isinstance(node.value, Mod)
 
     def test_parse_zero_literal(self):
         node = _parse("in_ra(0)\n")
@@ -266,6 +270,7 @@ class TestASTNodeTypes:
         ("in_ra(5 - 3)\n", Sub),
         ("in_ra(4 * 3)\n", Mul),
         ("in_ra(8 / 4)\n", Div),
+        ("in_ra(8 % 3)\n", Mod),
     ])
     def test_binary_op_types(self, source: str, expected_type: type) -> None:
         """Parametrised: each arithmetic op produces the correct BinaryOp subtype."""
@@ -277,6 +282,7 @@ class TestASTNodeTypes:
         "in_ra(3 - 1)\n",
         "in_ra(4 * 5)\n",
         "in_ra(10 / 2)\n",
+        "in_ra(10 % 3)\n",
     ])
     def test_binary_ops_are_binaryop_subclass(self, source: str) -> None:
         """All binary op nodes must be BinaryOp subclasses."""

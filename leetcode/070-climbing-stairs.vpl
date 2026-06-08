@@ -1,0 +1,35 @@
+# Bài toán LeetCode 70: Leo cầu thang / LeetCode 70: Climbing Stairs
+# Có n bậc thềm. Mỗi lần có thể bước 1 hoặc 2 bước. Hỏi có bao nhiêu cách khác nhau để leo lên đỉnh?
+# This is equivalent to finding the n-th Fibonacci number.
+
+hàm leo_cầu_thang(n)
+  nếu n <= 2 thì
+    trả_về n
+  hết
+
+  khai_báo thứ_nhất = 1
+  khai_báo thứ_hai = 2
+  khai_báo i = 3
+
+  khi i <= n thì
+    khai_báo thứ_ba = thứ_nhất + thứ_hai
+    thứ_nhất = thứ_hai
+    thứ_hai = thứ_ba
+    i = i + 1
+  hết
+
+  trả_về thứ_hai
+hết
+
+# Kiểm tra
+# 2 -> 2 cách (1+1, 2)
+in_ra(leo_cầu_thang(2))
+
+# 3 -> 3 cách (1+1+1, 1+2, 2+1)
+in_ra(leo_cầu_thang(3))
+
+# 4 -> 5 cách
+in_ra(leo_cầu_thang(4))
+
+# 5 -> 8 cách
+in_ra(leo_cầu_thang(5))
