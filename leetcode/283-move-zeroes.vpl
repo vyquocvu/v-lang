@@ -1,0 +1,44 @@
+# Bài toán LeetCode 283: Di chuyển số không / LeetCode 283: Move Zeroes
+# Di chuyển tất cả số 0 về cuối mảng, giữ nguyên thứ tự các phần tử khác.
+# Move all zeroes to the end while maintaining relative order of non-zero elements.
+
+hàm di_chuyển_số_không(nums, n)
+  # Bước 1: Chép tất cả phần tử khác 0 vào đầu mảng
+  khai_báo pos = 0
+  khai_báo i = 0
+  khi i < n thì
+    nếu nums[i] != 0 thì
+      nums[pos] = nums[i]
+      pos = pos + 1
+    hết
+    i = i + 1
+  hết
+  # Bước 2: Điền số 0 vào phần còn lại
+  khi pos < n thì
+    nums[pos] = 0
+    pos = pos + 1
+  hết
+hết
+
+# Kiểm tra: [0,1,0,3,12] -> [1,3,12,0,0]
+khai_báo nums1 = [0, 1, 0, 3, 12]
+di_chuyển_số_không(nums1, 5)
+khai_báo i = 0
+khi i < 5 thì
+  in_ra(nums1[i])
+  i = i + 1
+hết
+
+# Kiểm tra: [0] -> [0]
+khai_báo nums2 = [0]
+di_chuyển_số_không(nums2, 1)
+in_ra(nums2[0])
+
+# Kiểm tra: [1,0,0,2,3] -> [1,2,3,0,0]
+khai_báo nums3 = [1, 0, 0, 2, 3]
+di_chuyển_số_không(nums3, 5)
+khai_báo j = 0
+khi j < 5 thì
+  in_ra(nums3[j])
+  j = j + 1
+hết

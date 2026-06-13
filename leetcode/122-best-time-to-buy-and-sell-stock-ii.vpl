@@ -1,0 +1,28 @@
+# Bài toán LeetCode 122: Thời điểm tốt nhất để mua và bán cổ phiếu II
+# LeetCode 122: Best Time to Buy and Sell Stock II
+# Có thể mua bán nhiều lần, nhưng chỉ giữ tối đa 1 cổ phiếu tại một thời điểm.
+# Unlimited transactions; capture every upward price movement.
+
+hàm lợi_nhuận_tối_đa_2(prices, n)
+  khai_báo lợi_nhuận = 0
+  khai_báo i = 1
+  khi i < n thì
+    nếu prices[i] > prices[i - 1] thì
+      lợi_nhuận = lợi_nhuận + prices[i] - prices[i - 1]
+    hết
+    i = i + 1
+  hết
+  trả_về lợi_nhuận
+hết
+
+# Kiểm tra: [7,1,5,3,6,4] -> 7 (mua 1 bán 5, mua 3 bán 6)
+khai_báo p1 = [7, 1, 5, 3, 6, 4]
+in_ra(lợi_nhuận_tối_đa_2(p1, 6))
+
+# Kiểm tra: [1,2,3,4,5] -> 4 (mua 1 bán 5 hoặc mua mỗi ngày bán hôm sau)
+khai_báo p2 = [1, 2, 3, 4, 5]
+in_ra(lợi_nhuận_tối_đa_2(p2, 5))
+
+# Kiểm tra: [7,6,4,3,1] -> 0 (không nên giao dịch)
+khai_báo p3 = [7, 6, 4, 3, 1]
+in_ra(lợi_nhuận_tối_đa_2(p3, 5))

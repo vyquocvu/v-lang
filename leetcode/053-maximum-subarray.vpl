@@ -1,0 +1,39 @@
+# Bài toán LeetCode 53: Mảng con có tổng lớn nhất / LeetCode 53: Maximum Subarray
+# Tìm mảng con liên tiếp có tổng lớn nhất (thuật toán Kadane).
+# Find the contiguous subarray with the largest sum (Kadane's algorithm).
+
+hàm mảng_con_tối_đa(nums, n)
+  khai_báo max_sum = nums[0]
+  khai_báo cur_sum = nums[0]
+  khai_báo i = 1
+  khi i < n thì
+    nếu cur_sum < 0 thì
+      cur_sum = nums[i]
+    khác_thì
+      cur_sum = cur_sum + nums[i]
+    hết
+    nếu cur_sum > max_sum thì
+      max_sum = cur_sum
+    hết
+    i = i + 1
+  hết
+  trả_về max_sum
+hết
+
+# Khởi tạo mảng chứa số âm bằng phép trừ (ngôn ngữ chưa hỗ trợ literal âm)
+# nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4] -> 6 (mảng con [4,-1,2,1])
+khai_báo nums1 = [0, 1, 0, 4, 0, 2, 1, 0, 4]
+nums1[0] = 0 - 2
+nums1[2] = 0 - 3
+nums1[4] = 0 - 1
+nums1[7] = 0 - 5
+in_ra(mảng_con_tối_đa(nums1, 9))
+
+# nums = [1] -> 1
+khai_báo nums2 = [1]
+in_ra(mảng_con_tối_đa(nums2, 1))
+
+# nums = [5,4,-1,7,8] -> 23 (toàn bộ mảng)
+khai_báo nums3 = [5, 4, 0, 7, 8]
+nums3[2] = 0 - 1
+in_ra(mảng_con_tối_đa(nums3, 5))

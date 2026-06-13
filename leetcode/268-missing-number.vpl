@@ -1,0 +1,31 @@
+# Bài toán LeetCode 268: Số bị mất / LeetCode 268: Missing Number
+# Cho mảng nums gồm n số phân biệt trong phạm vi [0,n], tìm số duy nhất bị thiếu.
+# Given n distinct numbers in [0,n], find the one missing number.
+
+hàm số_bị_mất(nums, n)
+  # Tổng lý thuyết: n*(n+1)/2
+  khai_báo tổng_lý_thuyết = n * (n + 1) / 2
+  khai_báo tổng_thực = 0
+  khai_báo i = 0
+  khi i < n thì
+    tổng_thực = tổng_thực + nums[i]
+    i = i + 1
+  hết
+  trả_về tổng_lý_thuyết - tổng_thực
+hết
+
+# Kiểm tra: [3,0,1] -> 2
+khai_báo nums1 = [3, 0, 1]
+in_ra(số_bị_mất(nums1, 3))
+
+# Kiểm tra: [0,1] -> 2
+khai_báo nums2 = [0, 1]
+in_ra(số_bị_mất(nums2, 2))
+
+# Kiểm tra: [9,6,4,2,3,5,7,0,1] -> 8
+khai_báo nums3 = [9, 6, 4, 2, 3, 5, 7, 0, 1]
+in_ra(số_bị_mất(nums3, 9))
+
+# Kiểm tra: [0] -> 1
+khai_báo nums4 = [0]
+in_ra(số_bị_mất(nums4, 1))

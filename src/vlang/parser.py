@@ -31,6 +31,9 @@ from vlang.nodes import (
     ArrayLiteral,
     ArrayIndex,
     ArrayAssign,
+    LogicalAnd,
+    LogicalOr,
+    UnaryMinus,
 )
 
 # All token names the parser may encounter.
@@ -66,13 +69,18 @@ _TOKENS = [
     "SAI",
     "MO_NGOAC_VUONG",
     "DONG_NGOAC_VUONG",
+    "VA",
+    "HOAC",
 ]
 
 # Operator precedence (low → high, left-associative by default).
 _PRECEDENCE = [
+    ("left", ["HOAC"]),
+    ("left", ["VA"]),
     ("left", ["BANG", "BANG_LON_HON", "BANG_NHO_HON", "KHAC", "LON_HON", "NHO_HON"]),
     ("left", ["CONG", "TRU"]),
     ("left", ["NHAN", "CHIA", "CHIA_DU"]),
+    ("right", ["UMINUS"]),
     ("left", ["MO_NGOAC_VUONG"]),
 ]
 
@@ -180,6 +188,18 @@ class Parser:
         def expression_compare(p):
             left, op, right = p[0], p[1], p[2]
             return Compare(self.builder, self.module, left, op.gettokentype(), right)
+
+        @self._pg.production("expression : expression VA expression")
+        def expression_and(p):
+            return LogicalAnd(self.builder, self.module, p[0], p[2])
+
+        @self._pg.production("expression : expression HOAC expression")
+        def expression_or(p):
+            return LogicalOr(self.builder, self.module, p[0], p[2])
+
+        @self._pg.production("expression : TRU expression", precedence="UMINUS")
+        def expression_unary_minus(p):
+            return UnaryMinus(self.builder, self.module, p[1])
 
         @self._pg.production("expression : IDENTIFIER")
         def expression_var(p):

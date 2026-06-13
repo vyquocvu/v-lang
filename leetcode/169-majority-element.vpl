@@ -1,0 +1,35 @@
+# Bài toán LeetCode 169: Phần tử chiếm đa số / LeetCode 169: Majority Element
+# Tìm phần tử xuất hiện hơn n/2 lần. Dùng thuật toán Boyer-Moore Voting.
+# Find the element appearing more than n/2 times using Boyer-Moore Voting.
+
+hàm phần_tử_đa_số(nums, n)
+  khai_báo ứng_viên = nums[0]
+  khai_báo đếm = 1
+  khai_báo i = 1
+  khi i < n thì
+    nếu đếm == 0 thì
+      ứng_viên = nums[i]
+      đếm = 1
+    khác_thì
+      nếu nums[i] == ứng_viên thì
+        đếm = đếm + 1
+      khác_thì
+        đếm = đếm - 1
+      hết
+    hết
+    i = i + 1
+  hết
+  trả_về ứng_viên
+hết
+
+# Kiểm tra: [3,2,3] -> 3
+khai_báo nums1 = [3, 2, 3]
+in_ra(phần_tử_đa_số(nums1, 3))
+
+# Kiểm tra: [2,2,1,1,1,2,2] -> 2
+khai_báo nums2 = [2, 2, 1, 1, 1, 2, 2]
+in_ra(phần_tử_đa_số(nums2, 7))
+
+# Kiểm tra: [6,5,5] -> 5
+khai_báo nums3 = [6, 5, 5]
+in_ra(phần_tử_đa_số(nums3, 3))
