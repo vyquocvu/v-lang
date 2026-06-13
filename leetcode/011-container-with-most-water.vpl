@@ -1,0 +1,38 @@
+# Bài toán LeetCode 11: Bể chứa nước nhiều nhất / LeetCode 11: Container With Most Water
+# Cho mảng height[n], tìm hai đường thẳng tạo ra bể chứa nhiều nước nhất.
+# Find two lines that together with the x-axis form a container holding the most water.
+
+hàm bể_nước_tối_đa(height, n)
+  khai_báo l = 0
+  khai_báo r = n - 1
+  khai_báo max_water = 0
+  khi l < r thì
+    khai_báo w = r - l
+    khai_báo h = height[l]
+    nếu height[r] < h thì
+      h = height[r]
+    hết
+    khai_báo water = w * h
+    nếu water > max_water thì
+      max_water = water
+    hết
+    nếu height[l] < height[r] thì
+      l = l + 1
+    khác_thì
+      r = r - 1
+    hết
+  hết
+  trả_về max_water
+hết
+
+# Kiểm tra: height = [1,8,6,2,5,4,8,3,7] -> 49
+khai_báo h1 = [1, 8, 6, 2, 5, 4, 8, 3, 7]
+in_ra(bể_nước_tối_đa(h1, 9))
+
+# Kiểm tra: height = [1,1] -> 1
+khai_báo h2 = [1, 1]
+in_ra(bể_nước_tối_đa(h2, 2))
+
+# Kiểm tra: height = [4,3,2,1,4] -> 16
+khai_báo h3 = [4, 3, 2, 1, 4]
+in_ra(bể_nước_tối_đa(h3, 5))

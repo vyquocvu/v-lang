@@ -1,0 +1,30 @@
+# Bài toán LeetCode 217: Có phần tử trùng lặp? / LeetCode 217: Contains Duplicate
+# Trả về 1 nếu tồn tại phần tử xuất hiện ít nhất 2 lần, ngược lại trả về 0.
+# Return 1 if any value appears at least twice; else return 0.
+
+hàm có_trùng_lặp(nums, n)
+  khai_báo i = 0
+  khi i < n - 1 thì
+    khai_báo j = i + 1
+    khi j < n thì
+      nếu nums[i] == nums[j] thì
+        trả_về 1
+      hết
+      j = j + 1
+    hết
+    i = i + 1
+  hết
+  trả_về 0
+hết
+
+# Kiểm tra: [1,2,3,1] -> 1 (1 xuất hiện 2 lần)
+khai_báo nums1 = [1, 2, 3, 1]
+in_ra(có_trùng_lặp(nums1, 4))
+
+# Kiểm tra: [1,2,3,4] -> 0 (không có phần tử trùng)
+khai_báo nums2 = [1, 2, 3, 4]
+in_ra(có_trùng_lặp(nums2, 4))
+
+# Kiểm tra: [1,1,1,3,3,4,3,2,4,2] -> 1
+khai_báo nums3 = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]
+in_ra(có_trùng_lặp(nums3, 10))

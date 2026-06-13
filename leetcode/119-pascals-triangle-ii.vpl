@@ -1,0 +1,40 @@
+# Bài toán LeetCode 119: Hàng thứ k của Tam giác Pascal / LeetCode 119: Pascal's Triangle II
+# Trả về hàng thứ k (0-indexed) của tam giác Pascal.
+# Return the k-th row (0-indexed) of Pascal's triangle using O(k) space.
+
+hàm hàng_pascal(k, hàng)
+  # hàng có kích thước k+1, được khởi tạo = 0
+  hàng[0] = 1
+  khai_báo i = 1
+  khi i <= k thì
+    # Duyệt từ phải sang trái để tránh dùng lại giá trị đã cập nhật
+    khai_báo j = i
+    khi j >= 1 thì
+      hàng[j] = hàng[j] + hàng[j - 1]
+      j = j - 1
+    hết
+    i = i + 1
+  hết
+hết
+
+# Kiểm tra: k=3 -> [1,3,3,1]
+khai_báo row1 = [0, 0, 0, 0]
+hàng_pascal(3, row1)
+in_ra(row1[0])
+in_ra(row1[1])
+in_ra(row1[2])
+in_ra(row1[3])
+
+# Kiểm tra: k=0 -> [1]
+khai_báo row2 = [0]
+hàng_pascal(0, row2)
+in_ra(row2[0])
+
+# Kiểm tra: k=4 -> [1,4,6,4,1]
+khai_báo row3 = [0, 0, 0, 0, 0]
+hàng_pascal(4, row3)
+in_ra(row3[0])
+in_ra(row3[1])
+in_ra(row3[2])
+in_ra(row3[3])
+in_ra(row3[4])

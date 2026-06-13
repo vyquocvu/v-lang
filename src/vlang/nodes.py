@@ -514,6 +514,48 @@ class ArrayIndex:
         return self.builder.load(elem_ptr)
 
 
+class LogicalAnd(BinaryOp):
+    """Logical AND: left && right  (và)."""
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        l_val = self.left.eval(env)
+        r_val = self.right.eval(env)
+        if l_val.type != ir.IntType(1):
+            l_val = self.builder.icmp_signed("!=", l_val, ir.Constant(l_val.type, 0))
+        if r_val.type != ir.IntType(1):
+            r_val = self.builder.icmp_signed("!=", r_val, ir.Constant(r_val.type, 0))
+        return self.builder.and_(l_val, r_val)
+
+
+class LogicalOr(BinaryOp):
+    """Logical OR: left || right  (hoặc)."""
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        l_val = self.left.eval(env)
+        r_val = self.right.eval(env)
+        if l_val.type != ir.IntType(1):
+            l_val = self.builder.icmp_signed("!=", l_val, ir.Constant(l_val.type, 0))
+        if r_val.type != ir.IntType(1):
+            r_val = self.builder.icmp_signed("!=", r_val, ir.Constant(r_val.type, 0))
+        return self.builder.or_(l_val, r_val)
+
+
+class UnaryMinus:
+    """Unary negation: -expr."""
+
+    def __init__(self, builder: ir.IRBuilder, module: ir.Module, operand) -> None:
+        self.builder = builder
+        self.module = module
+        self.operand = operand
+
+    def eval(self, env: dict | None = None) -> ir.instructions.Instruction:
+        env = env if env is not None else {}
+        val = self.operand.eval(env)
+        return self.builder.neg(val)
+
+
 class ArrayAssign:
     """An array indexing write node: array[index] = value."""
 

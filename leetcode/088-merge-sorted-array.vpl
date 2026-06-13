@@ -1,0 +1,46 @@
+# Bài toán LeetCode 88: Trộn hai mảng đã sắp xếp / LeetCode 88: Merge Sorted Array
+# Trộn nums1[0..m-1] và nums2[0..n-1] vào nums1 (kích thước m+n) theo thứ tự tăng dần.
+# Merge nums1 (size m) and nums2 (size n) into nums1 in-place in sorted order.
+
+hàm trộn_mảng(nums1, m, nums2, n)
+  khai_báo i = m - 1
+  khai_báo j = n - 1
+  khai_báo k = m + n - 1
+  khi j >= 0 thì
+    nếu i >= 0 thì
+      nếu nums1[i] > nums2[j] thì
+        nums1[k] = nums1[i]
+        i = i - 1
+      khác_thì
+        nums1[k] = nums2[j]
+        j = j - 1
+      hết
+    khác_thì
+      nums1[k] = nums2[j]
+      j = j - 1
+    hết
+    k = k - 1
+  hết
+hết
+
+# Kiểm tra: nums1=[1,2,3,0,0,0], m=3; nums2=[2,5,6], n=3 -> [1,2,2,3,5,6]
+khai_báo nums1 = [1, 2, 3, 0, 0, 0]
+khai_báo nums2 = [2, 5, 6]
+trộn_mảng(nums1, 3, nums2, 3)
+khai_báo i = 0
+khi i < 6 thì
+  in_ra(nums1[i])
+  i = i + 1
+hết
+
+# Kiểm tra: nums1=[1], m=1; nums2=[], n=0 -> [1]
+khai_báo a2 = [1]
+khai_báo b2 = [0]
+trộn_mảng(a2, 1, b2, 0)
+in_ra(a2[0])
+
+# Kiểm tra: nums1=[0], m=0; nums2=[1], n=1 -> [1]
+khai_báo a3 = [0]
+khai_báo b3 = [1]
+trộn_mảng(a3, 0, b3, 1)
+in_ra(a3[0])

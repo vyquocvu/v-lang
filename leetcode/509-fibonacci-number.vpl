@@ -1,0 +1,40 @@
+# Bài toán LeetCode 509: Số Fibonacci / LeetCode 509: Fibonacci Number
+# Tính số Fibonacci thứ n. F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2) với n>1.
+# Calculate the nth Fibonacci number iteratively.
+
+hàm fibonacci(n)
+  nếu n <= 0 thì
+    trả_về 0
+  hết
+  nếu n == 1 thì
+    trả_về 1
+  hết
+  khai_báo a = 0
+  khai_báo b = 1
+  khai_báo i = 2
+  khi i <= n thì
+    khai_báo c = a + b
+    a = b
+    b = c
+    i = i + 1
+  hết
+  trả_về b
+hết
+
+# Kiểm tra: F(2)=1
+in_ra(fibonacci(2))
+
+# Kiểm tra: F(3)=2
+in_ra(fibonacci(3))
+
+# Kiểm tra: F(4)=3
+in_ra(fibonacci(4))
+
+# Kiểm tra: F(10)=55
+in_ra(fibonacci(10))
+
+# Kiểm tra: F(0)=0
+in_ra(fibonacci(0))
+
+# Kiểm tra: F(1)=1
+in_ra(fibonacci(1))
