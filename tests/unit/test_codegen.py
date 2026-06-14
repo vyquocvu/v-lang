@@ -57,10 +57,9 @@ class TestCodeGenIR:
     def test_save_ir_creates_file(self, tmp_path):
         """save_ir() must write the LLVM IR representation to disk."""
         cg = CodeGen()
-        # Evaluate a dummy number node
+        # Emit IR for a dummy number node
         from vlang.nodes import Number
-        n = Number(cg.builder, cg.module, "10")
-        n.eval()
+        cg.generate(Number("10"))
         cg.create_ir()
 
         output_path = tmp_path / "output.ll"

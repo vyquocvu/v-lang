@@ -2,7 +2,6 @@
 Unit tests for Boolean literals and expressions in the vlang compiler.
 """
 
-import pytest
 from llvmlite import ir
 
 from vlang.lexer import Lexer
@@ -11,8 +10,6 @@ from vlang.nodes import (
     Boolean,
     Program,
     VarDecl,
-    VarAssign,
-    VarRef,
     IfStmt,
 )
 
@@ -23,11 +20,9 @@ def _tokenize(source: str):
 
 
 def _parse(source: str):
-    from vlang.codegen import CodeGen
-    cg = CodeGen()
     lexer = Lexer().get_lexer()
     tokens = lexer.lex(source)
-    pg = Parser(cg.module, cg.builder, cg.printf)
+    pg = Parser()
     pg.parse()
     ast = pg.get_parser().parse(tokens)
     if isinstance(ast, Program) and len(ast.statements) == 1:
@@ -45,7 +40,7 @@ def test_boolean_lexer_tokens():
 def test_boolean_parser_nodes():
     """Verify that boolean expressions parse into Boolean nodes."""
     from vlang.nodes import Print
-    
+
     node_true = _parse("in_ra(đúng)\n")
     assert isinstance(node_true, Print)
     assert isinstance(node_true.value, Boolean)
@@ -57,53 +52,43 @@ def test_boolean_parser_nodes():
     assert node_false.value.value is False
 
 
-def test_boolean_eval(fresh_codegen):
-    """Verify that Boolean node eval outputs LLVM i1 constants."""
-    builder = fresh_codegen.builder
-    module = fresh_codegen.module
-
-    b_true = Boolean(builder, module, True)
-    val_true = b_true.eval()
+def test_boolean_eval(visitor):
+    """Verify that visiting a Boolean node outputs LLVM i1 constants."""
+    val_true = visitor.visit(Boolean(True), {})
     assert val_true.type == ir.IntType(1)
     assert val_true.constant == 1
 
-    b_false = Boolean(builder, module, False)
-    val_false = b_false.eval()
+    val_false = visitor.visit(Boolean(False), {})
     assert val_false.type == ir.IntType(1)
     assert val_false.constant == 0
 
 
-def test_boolean_variable_allocation(fresh_codegen):
+def test_boolean_variable_allocation(visitor):
     """Verify that declaring a boolean variable allocates i1 on stack instead of i64."""
-    builder = fresh_codegen.builder
-    module = fresh_codegen.module
-
+    module = visitor.module
     env = {}
-    
+
     # khai_báo b = đúng
-    decl = VarDecl(builder, module, "b", Boolean(builder, module, True))
-    decl.eval(env)
+    visitor.visit(VarDecl("b", Boolean(True)), env)
 
     assert "b" in env
     assert isinstance(env["b"], ir.Instruction)
     assert env["b"].opname == "alloca"
-    
+
     ir_text = str(module)
     assert '%"b" = alloca i1' in ir_text
     assert 'store i1 1, i1* %"b"' in ir_text
 
 
-def test_boolean_conditional_execution(fresh_codegen):
+def test_boolean_conditional_execution(visitor):
     """Verify that IfStmt works directly with a Boolean condition without casting."""
-    builder = fresh_codegen.builder
-    module = fresh_codegen.module
+    module = visitor.module
 
     # nếu đúng thì 10 hết
-    cond = Boolean(builder, module, True)
-    then_body = Program(builder, module, [Boolean(builder, module, False)])
-    
-    if_stmt = IfStmt(builder, module, cond, then_body)
-    if_stmt.eval()
+    cond = Boolean(True)
+    then_body = Program([Boolean(False)])
+
+    visitor.visit(IfStmt(cond, then_body), {})
 
     ir_text = str(module)
     # The condition is already i1, so it shouldn't generate icmp ne

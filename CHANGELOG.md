@@ -30,6 +30,13 @@ Version numbers follow [Semantic Versioning](https://semver.org/).
 - Added operator precedence table to parser (`NHAN`/`CHIA` over `CONG`/`TRU`)
 
 ### Changed
+- **Refactor**: Separated the AST from code generation. `src/vlang/nodes.py` is
+  now pure data (dataclasses, no LLVM dependency, no `eval()`); all LLVM IR
+  emission moved to a new `src/vlang/visitor.py` (`CodeGenVisitor`). The parser
+  no longer threads `builder`/`module`/`printf` into nodes, and
+  `CodeGen.generate(ast)` drives the visitor. Behavior-preserving: emitted IR is
+  byte-identical for all examples and conformance programs. This unblocks a
+  future type-checker pass and multiple value types.
 - Migrated from tabs to spaces throughout (PEP 8)
 - Added docstrings and type annotations to all public classes and methods
 - Replaced hardcoded `main.py` entry point with proper CLI (`argparse`)
