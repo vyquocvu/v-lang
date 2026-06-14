@@ -1,4 +1,4 @@
-# v-lang — Ngôn ngữ lập trình tiếng Việt 🇻🇳
+# vylang — Ngôn ngữ lập trình tiếng Việt 🇻🇳
 
 > A hobby compiler for a Vietnamese-keyword programming language, targeting native binaries via LLVM.  
 > *Thích thì làm thôi!*
