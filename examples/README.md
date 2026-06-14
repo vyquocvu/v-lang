@@ -1,6 +1,6 @@
 # Ví dụ / Examples
 
-Thư mục này chứa các chương trình v-lang ví dụ.
+Thư mục này chứa các chương trình vylang ví dụ.
 
 ---
 

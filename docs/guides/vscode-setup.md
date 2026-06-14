@@ -1,6 +1,6 @@
 # Cài đặt VS Code / VS Code Setup
 
-Hướng dẫn cài đặt môi trường lập trình v-lang trong Visual Studio Code.
+Hướng dẫn cài đặt môi trường lập trình vylang trong Visual Studio Code.
 
 ---
 

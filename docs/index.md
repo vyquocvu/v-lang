@@ -1,4 +1,4 @@
-# v-lang — Ngôn ngữ lập trình tiếng Việt 🇻🇳
+# vylang — Ngôn ngữ lập trình tiếng Việt 🇻🇳
 
 > A hobby compiler for a programming language with Vietnamese keywords,
 > targeting native binaries via LLVM.
@@ -16,8 +16,8 @@ pip install vlang
 Hoặc cài từ source / Or install from source:
 
 ```bash
-git clone https://github.com/vyquocvu/v-lang.git
-cd v-lang
+git clone https://github.com/vyquocvu/vylang.git
+cd vylang
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 ```
@@ -71,7 +71,7 @@ Kết quả / Output:
 
 - :material-school: **[Hướng dẫn](tutorials/hello-world.md)**
 
-    Bắt đầu với v-lang từ đầu.
+    Bắt đầu với vylang từ đầu.
 
 - :material-book-open: **[Tham khảo](reference/keywords.md)**
 
@@ -83,6 +83,6 @@ Kết quả / Output:
 
 - :material-lightbulb: **[Kiến trúc](explanation/architecture.md)**
 
-    Tại sao v-lang? Compiler hoạt động như thế nào?
+    Tại sao vylang? Compiler hoạt động như thế nào?
 
 </div>

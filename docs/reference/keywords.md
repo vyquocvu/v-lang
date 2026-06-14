@@ -1,6 +1,6 @@
 # Tham khảo từ khóa / Keyword Reference
 
-Danh sách đầy đủ tất cả từ khóa trong v-lang, được thiết kế tối ưu theo văn phong lập trình tiếng Việt tự nhiên.
+Danh sách đầy đủ tất cả từ khóa trong vylang, được thiết kế tối ưu theo văn phong lập trình tiếng Việt tự nhiên.
 
 ---
 

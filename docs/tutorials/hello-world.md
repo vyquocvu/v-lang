@@ -1,6 +1,6 @@
 # Hướng dẫn: Xin chào, thế giới! / Hello, World!
 
-Hướng dẫn này sẽ đưa bạn qua chương trình v-lang đầu tiên.
+Hướng dẫn này sẽ đưa bạn qua chương trình vylang đầu tiên.
 
 ---
 
@@ -45,7 +45,7 @@ vlang compile xin_chao.vpl -o xin_chao
 
 ## 4. Phép tính / Arithmetic
 
-v-lang hỗ trợ các phép tính cơ bản:
+vylang hỗ trợ các phép tính cơ bản:
 
 ```
 in_ra(10 + 5)    # Cộng  → 15
@@ -73,7 +73,7 @@ vlang compile phep_tinh.vpl -o phep_tinh
 
 ## 5. Thứ tự ưu tiên / Operator Precedence
 
-v-lang tuân theo thứ tự ưu tiên toán học chuẩn:
+vylang tuân theo thứ tự ưu tiên toán học chuẩn:
 
 ```
 in_ra(2 + 3 * 4)    # = 2 + 12 = 14  (nhân trước)

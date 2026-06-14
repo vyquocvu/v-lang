@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to v-lang are documented here.
+All notable changes to vylang are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Version numbers follow [Semantic Versioning](https://semver.org/).
 
@@ -59,5 +59,5 @@ Version numbers follow [Semantic Versioning](https://semver.org/).
 - Code generator: LLVM IR via `llvmlite`, `printf` for output
 - Build pipeline: `python main.py` → `output.ll` → `llc` → `gcc` → binary
 
-[Unreleased]: https://github.com/vyquocvu/v-lang/compare/v0.1.0...HEAD
-[0.0.1]: https://github.com/vyquocvu/v-lang/releases/tag/v0.0.1
+[Unreleased]: https://github.com/vyquocvu/vylang/compare/v0.1.0...HEAD
+[0.0.1]: https://github.com/vyquocvu/vylang/releases/tag/v0.0.1

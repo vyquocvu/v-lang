@@ -1,5 +1,5 @@
 """
-Shared pytest fixtures for the v-lang test suite.
+Shared pytest fixtures for the vylang test suite.
 
 Fixtures are organised into tiers:
   - Tier 1  (low-level)  : CodeGen / LLVM primitives

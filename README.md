@@ -11,8 +11,8 @@
 
 ```bash
 # 1. Clone
-git clone https://github.com/vyquocvu/v-lang.git
-cd v-lang
+git clone https://github.com/vyquocvu/vylang.git
+cd vylang
 
 # 2. Create a virtual environment
 python -m venv .venv
@@ -44,7 +44,7 @@ chmod +x scripts/build.sh
 ## Project Structure
 
 ```
-v-lang/
+vylang/
 ├── src/vlang/
 │   ├── __init__.py   # Package version
 │   ├── lexer.py      # Tokeniser (rply)

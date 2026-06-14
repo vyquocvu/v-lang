@@ -1,12 +1,12 @@
-# Lộ trình Phát triển / Production Roadmap — v-lang 🇻🇳
+# Lộ trình Phát triển / Production Roadmap — vylang 🇻🇳
 
-This document details the production roadmap for **v-lang** — a programming language with Vietnamese keywords designed to target native binaries using LLVM.
+This document details the production roadmap for **vylang** — a programming language with Vietnamese keywords designed to target native binaries using LLVM.
 
 ---
 
 ## 🎯 Tầm nhìn / Vision
 
-v-lang aims to lower the barrier to entry for Vietnamese speakers (especially students and hobbyists) who want to learn programming and compiler engineering. It is not just an interpreted scripting language; it is a **native compiled language** powered by LLVM, providing high performance and cross-platform compatibility.
+vylang aims to lower the barrier to entry for Vietnamese speakers (especially students and hobbyists) who want to learn programming and compiler engineering. It is not just an interpreted scripting language; it is a **native compiled language** powered by LLVM, providing high performance and cross-platform compatibility.
 
 ---
 
@@ -35,7 +35,7 @@ The roadmap is structured into 4 main phases, spanning approximately **5 months 
 └──────────────────────────┬─────────────────────────────┘
                            │
                            ▼
-                     🚀 v-lang v1.0
+                     🚀 vylang v1.0
 ```
 
 ---
@@ -84,7 +84,7 @@ The roadmap is structured into 4 main phases, spanning approximately **5 months 
 *   **Code Formatter**:
     *   Build `vlang-format` (similar to `gofmt` or `rustfmt`) to enforce a single code style.
 *   **DWARF Debugging Info**:
-    *   Emit LLVM debug metadata so developers can use `gdb` or `lldb` to debug native binaries written in v-lang.
+    *   Emit LLVM debug metadata so developers can use `gdb` or `lldb` to debug native binaries written in vylang.
 
 ---
 
@@ -96,7 +96,7 @@ The roadmap is structured into 4 main phases, spanning approximately **5 months 
     *   Integrate LLVM Pass Managers to run dead code elimination, constant folding, and loop unrolling.
 *   **Foreign Function Interface (FFI)**:
     *   Add ability to call C libraries using `nạp_ngoài` (external import).
-    *   Support compiling v-lang functions into static (`.a`) or shared (`.so` / `.dylib`) libraries.
+    *   Support compiling vylang functions into static (`.a`) or shared (`.so` / `.dylib`) libraries.
 *   **Testing & Quality Assurance**:
     *   Implement compiler fuzzing with Hypothesis to test edge cases.
     *   Increase unit and integration test coverage to ≥95%.
@@ -106,7 +106,7 @@ The roadmap is structured into 4 main phases, spanning approximately **5 months 
 ---
 
 ### Phase 4 — Ecosystem & Distribution (Weeks 18 - 20)
-*Focus: Launching v-lang to the public, documenting APIs, and building a community.*
+*Focus: Launching vylang to the public, documenting APIs, and building a community.*
 
 *   **Standard Library (`thư_viện_chuẩn`)**:
     *   `toán`: Standard math functions.

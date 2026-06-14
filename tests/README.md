@@ -1,6 +1,6 @@
 # Tests
 
-Bộ kiểm thử của v-lang / v-lang test suite.
+Bộ kiểm thử của vylang / vylang test suite.
 
 ---
 

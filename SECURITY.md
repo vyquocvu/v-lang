@@ -11,11 +11,11 @@
 
 **Please do not report security vulnerabilities through public GitHub Issues.**
 
-If you discover a security vulnerability in v-lang, please report it
+If you discover a security vulnerability in vylang, please report it
 **privately** using one of these methods:
 
 1. **GitHub Private Vulnerability Reporting** (preferred):
-   Go to the [Security tab](https://github.com/vyquocvu/v-lang/security) →
+   Go to the [Security tab](https://github.com/vyquocvu/vylang/security) →
    "Report a vulnerability"
 
 2. **Email**: Send details to the maintainer listed in the README.
@@ -35,7 +35,7 @@ If you discover a security vulnerability in v-lang, please report it
 
 ## Scope
 
-Security issues relevant to v-lang include:
+Security issues relevant to vylang include:
 
 - **Compiler crashes** on maliciously crafted input (compiler should never panic)
 - **Path traversal** in file I/O operations

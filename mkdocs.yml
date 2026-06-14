@@ -1,8 +1,8 @@
-site_name: v-lang
+site_name: vylang
 site_description: Ngôn ngữ lập trình tiếng Việt — Vietnamese programming language
-site_url: https://vyquocvu.github.io/v-lang
-repo_url: https://github.com/vyquocvu/v-lang
-repo_name: vyquocvu/v-lang
+site_url: https://vyquocvu.github.io/vylang
+repo_url: https://github.com/vyquocvu/vylang
+repo_name: vyquocvu/vylang
 edit_uri: edit/main/docs/
 
 theme:
@@ -92,13 +92,13 @@ nav:
     - CLI: guides/cli.md
     - Cài đặt VS Code: guides/vscode-setup.md
   - Giải thích:
-    - Tại sao v-lang?: explanation/design.md
+    - Tại sao vylang?: explanation/design.md
     - Kiến trúc: explanation/architecture.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/vyquocvu/v-lang
-      name: v-lang on GitHub
+      link: https://github.com/vyquocvu/vylang
+      name: vylang on GitHub
   version:
     provider: mike

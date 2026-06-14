@@ -70,7 +70,7 @@ vlang repl
 ```
 
 ```
-v-lang 0.1.0 — Nhập 'thoát' hoặc Ctrl-D để thoát.
+vylang 0.1.0 — Nhập 'thoát' hoặc Ctrl-D để thoát.
 >>> in_ra(1 + 2)
 3
 >>> khai_báo x = 10
