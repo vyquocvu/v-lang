@@ -1,6 +1,6 @@
 # Contributors
 
-Cảm ơn tất cả những người đã đóng góp cho v-lang! 🇻🇳
+Cảm ơn tất cả những người đã đóng góp cho vylang! 🇻🇳
 
 ---
 
@@ -29,4 +29,4 @@ Khi PR của bạn được merge, hãy thêm tên vào danh sách trên theo đ
 
 ---
 
-*Danh sách này được cập nhật thủ công. Xem [GitHub Contributors](https://github.com/vyquocvu/v-lang/graphs/contributors) để biết thêm.*
+*Danh sách này được cập nhật thủ công. Xem [GitHub Contributors](https://github.com/vyquocvu/vylang/graphs/contributors) để biết thêm.*

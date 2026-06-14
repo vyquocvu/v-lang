@@ -1,6 +1,6 @@
-# v-lang TDD Roadmap
+# vylang TDD Roadmap
 
-> **Goal:** Take the v-lang compiler from 13 lexer-only unit tests to a complete,
+> **Goal:** Take the vylang compiler from 13 lexer-only unit tests to a complete,
 > test-driven codebase with ≥90% coverage across all compiler phases.
 >
 > This is the **implementation roadmap** — every feature is written test-first.

@@ -1,6 +1,6 @@
-# Đóng góp cho v-lang / Contributing to v-lang
+# Đóng góp cho vylang / Contributing to vylang
 
-Cảm ơn bạn đã quan tâm đến v-lang! / Thank you for your interest in contributing!
+Cảm ơn bạn đã quan tâm đến vylang! / Thank you for your interest in contributing!
 
 ---
 
@@ -35,8 +35,8 @@ By participating you agree to uphold it.
 
 ```bash
 # Clone the repo
-git clone https://github.com/vyquocvu/v-lang.git
-cd v-lang
+git clone https://github.com/vyquocvu/vylang.git
+cd vylang
 
 # Create virtual environment and install dev dependencies
 uv sync --all-extras
@@ -54,7 +54,7 @@ uv run vlang compile examples/hello.vpl
 
 ### 🐛 Reporting Bugs
 
-1. Check [existing issues](https://github.com/vyquocvu/v-lang/issues) first
+1. Check [existing issues](https://github.com/vyquocvu/vylang/issues) first
 2. Use the [Bug Report template](.github/ISSUE_TEMPLATE/bug_report.md)
 3. Include: OS, Python version, full error output, minimal `.vpl` file that reproduces it
 
@@ -62,7 +62,7 @@ uv run vlang compile examples/hello.vpl
 
 1. Open a [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md)
 2. For new language keywords, use the [Keyword Proposal](.github/ISSUE_TEMPLATE/new_keyword.md) template
-3. Discuss in [GitHub Discussions](https://github.com/vyquocvu/v-lang/discussions) before opening a PR for large changes
+3. Discuss in [GitHub Discussions](https://github.com/vyquocvu/vylang/discussions) before opening a PR for large changes
 
 ### 📝 Improving Documentation
 
@@ -189,8 +189,8 @@ chore: update llvmlite to 0.44
 
 ## Questions?
 
-- 💬 [GitHub Discussions](https://github.com/vyquocvu/v-lang/discussions) for questions
-- 🐛 [GitHub Issues](https://github.com/vyquocvu/v-lang/issues) for bugs
+- 💬 [GitHub Discussions](https://github.com/vyquocvu/vylang/discussions) for questions
+- 🐛 [GitHub Issues](https://github.com/vyquocvu/vylang/issues) for bugs
 - 📧 Email: (maintainer contact in README)
 
 Chúc bạn code vui! / Happy coding! 🇻🇳

@@ -4,7 +4,7 @@
 
 ## Cấu trúc chương trình / Program Structure
 
-Một chương trình v-lang là một chuỗi các câu lệnh (statements).
+Một chương trình vylang là một chuỗi các câu lệnh (statements).
 Mỗi câu lệnh nằm trên một dòng riêng.
 
 ```
@@ -101,7 +101,7 @@ hết
 
 ## Định danh / Identifiers
 
-v-lang hỗ trợ hoàn toàn tiếng Việt có dấu cho các định danh (tên biến, tên hàm, tham số):
+vylang hỗ trợ hoàn toàn tiếng Việt có dấu cho các định danh (tên biến, tên hàm, tham số):
 
 - Định danh hợp lệ phải bắt đầu bằng một chữ cái (bao gồm cả chữ cái tiếng Việt có dấu như `đ`, `á`, `ệ`, `ở`...) hoặc dấu gạch dưới `_`.
 - Theo sau có thể là chữ cái, chữ số, hoặc dấu gạch dưới.
