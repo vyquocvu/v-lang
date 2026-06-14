@@ -67,6 +67,20 @@ def printf(fresh_codegen):
     return fresh_codegen.printf
 
 
+@pytest.fixture()
+def visitor(fresh_codegen):
+    """A ``CodeGenVisitor`` wired to a fresh CodeGen's module/builder/printf.
+
+    Use ``visitor.visit(node, {})`` or ``visitor.generate(node)`` to emit IR,
+    then assert on ``str(visitor.module)``.
+    """
+    from vlang.visitor import CodeGenVisitor
+
+    return CodeGenVisitor(
+        fresh_codegen.module, fresh_codegen.builder, fresh_codegen.printf
+    )
+
+
 # ---------------------------------------------------------------------------
 # Tier 2 — Pipeline helpers
 # ---------------------------------------------------------------------------
@@ -107,12 +121,12 @@ def compile_to_ir(source: str) -> str:
     tokens = lexer.lex(source)
 
     cg = CodeGen()
-    pg = Parser(cg.module, cg.builder, cg.printf)
+    pg = Parser()
     pg.parse()
     parser = pg.get_parser()
 
     ast = parser.parse(tokens)
-    ast.eval()
+    cg.generate(ast)
     cg.create_ir()
     return str(cg.module)
 
@@ -123,15 +137,13 @@ def parse_source(source: str):
     Useful for testing AST node types and structure without triggering
     LLVM IR emission.
     """
-    from vlang.codegen import CodeGen
     from vlang.lexer import Lexer
     from vlang.parser import Parser
 
     lexer = Lexer().get_lexer()
     tokens = lexer.lex(source)
 
-    cg = CodeGen()
-    pg = Parser(cg.module, cg.builder, cg.printf)
+    pg = Parser()
     pg.parse()
     parser = pg.get_parser()
     return parser.parse(tokens)

@@ -80,19 +80,32 @@ expression : expression NHAN expression
 ```
 
 ### `vlang/nodes.py` — AST Nodes
-Mỗi node đại diện cho một cấu trúc ngôn ngữ và có method `eval()`.
+Mỗi node là **dữ liệu thuần** (pure data): chỉ chứa các trường cấu trúc, không
+phụ thuộc LLVM và không có method `eval()`. Việc sinh IR nằm ở `vlang/visitor.py`.
 
 ```python
-Number(value)          → ir.Constant(i64, value)
-Sum(left, right)       → builder.add(left, right)
-Sub(left, right)       → builder.sub(left, right)
-Mul(left, right)       → builder.mul(left, right)
-Div(left, right)       → builder.sdiv(left, right)
-Print(printf, value)   → builder.call(printf, [fmt, value])
+Number(value)                  # giá trị là chuỗi nguồn, ví dụ "42"
+Sum(left, right)               # toán tử nhị phân
+Print(value)
+FuncDef(name, params, body)
+IfStmt(condition, then_body, else_body=None)
+```
+
+### `vlang/visitor.py` — CodeGen Visitor
+`CodeGenVisitor` duyệt AST thuần và sinh LLVM IR. Dispatch theo tên lớp node:
+node `Foo` được xử lý bởi `visit_Foo`. Môi trường (`env`: name → con trỏ/hàm LLVM)
+được truyền qua từng lần `visit` để hỗ trợ phạm vi lồng nhau (thân hàm).
+
+```python
+visit_Number(node, env)   → ir.Constant(i64, int(node.value))
+visit_Sum(node, env)      → builder.add(visit(left), visit(right))
+visit_Div(node, env)      → builder.sdiv(visit(left), visit(right))
+visit_Print(node, env)    → builder.call(printf, [fmt, visit(value)])
 ```
 
 ### `vlang/codegen.py` — LLVM Code Generator
-Thiết lập LLVM module, builder, và execution engine.
+Thiết lập LLVM module, builder, và execution engine. `generate(ast)` tạo một
+`CodeGenVisitor` và duyệt AST để sinh IR.
 
 **Các thành phần:**
 - `ir.Module` — container cho toàn bộ chương trình
@@ -121,8 +134,8 @@ Parser output:
 LLVM IR output:
   define void @main() {
   entry:
-    %0 = add i8 4, 2          ; Sum.eval()
-    %1 = call i32 @printf(...)  ; Print.eval()
+    %0 = add i64 4, 2           ; visit_Sum()
+    %1 = call i32 @printf(...)  ; visit_Print()
     ret void
   }
 ```

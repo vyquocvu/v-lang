@@ -63,6 +63,13 @@ class CodeGen:
     # Public API
     # ------------------------------------------------------------------
 
+    def generate(self, ast) -> None:
+        """Emit LLVM IR for *ast* into this module via ``CodeGenVisitor``."""
+        from vlang.visitor import CodeGenVisitor
+
+        visitor = CodeGenVisitor(self.module, self.builder, self.printf)
+        visitor.generate(ast)
+
     def _compile_ir(self) -> binding.ModuleRef:
         """Finalise the IR, verify it, and load it into the engine."""
         self.builder.ret_void()

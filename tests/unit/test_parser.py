@@ -29,15 +29,13 @@ def _parse(source: str):
 
     Raises ValueError if the source is syntactically invalid.
     """
-    from vlang.codegen import CodeGen
     from vlang.lexer import Lexer
     from vlang.parser import Parser
     from vlang.nodes import Program
 
-    cg = CodeGen()
     lexer = Lexer().get_lexer()
     tokens = lexer.lex(source)
-    pg = Parser(cg.module, cg.builder, cg.printf)
+    pg = Parser()
     pg.parse()
     ast = pg.get_parser().parse(tokens)
     if isinstance(ast, Program) and len(ast.statements) == 1:

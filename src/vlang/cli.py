@@ -40,12 +40,13 @@ def _compile(source: Path, output_name: str | None, ir_only: bool) -> int:
     codegen = CodeGen()
 
     # --- Parse → emit IR ---
-    pg = Parser(codegen.module, codegen.builder, codegen.printf)
+    pg = Parser()
     pg.parse()
     parser = pg.get_parser()
 
     try:
-        parser.parse(tokens).eval()
+        ast = parser.parse(tokens)
+        codegen.generate(ast)
     except Exception as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
